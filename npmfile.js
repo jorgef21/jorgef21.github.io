@@ -1,3 +1,3 @@
 exports.printMsg = function() {
-    console.log("Visit https://jorgeyperla.com !");
+    console.log("Visit https://wedding.rampatra.com !");
 };
