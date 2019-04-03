@@ -184,7 +184,7 @@ $(document).ready(function () {
         },
         data: {
             // Event title
-            title: "Boda Perla&Jorge",
+            title: "Boda Perla Y Jorge",
 
             // Event start date
             start: new Date('Dec 19 2019 21:00'),
