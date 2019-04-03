@@ -212,7 +212,7 @@ $(document).ready(function () {
         e.preventDefault();
         var data = $(this).serialize();
 
-        $('#alert-wrapper').html(alert_markup('info', '<strong>Just a sec!</strong> We are saving your details.'));
+        $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
         if (MD5($('#invite_code').val()) !== 'b0e53b10c1f55ede516b240036b88f40'
             && MD5($('#invite_code').val()) !== '2ac7f43695eb0479d5846bb38eec59cc') {
