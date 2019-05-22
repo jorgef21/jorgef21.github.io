@@ -214,11 +214,12 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             url: "https://api.perlayjorge.com/invitaciones?filter=jorge" // API URL
+            dataType: 'json'
         }).done(function(yourData) {
             // Now open the modal! (Assuming you are using bootstrap.js)
             $("#rsvp-modal").modal("show");
             // If you used 'res.json' then you can use yourData here
-            $("#paragraphInModal").html(yourData);
+            $("#paragraphInModal").html(yourData.nombre);
         });
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
