@@ -211,18 +211,27 @@ $(document).ready(function () {
     $('#rsvp-form').on('submit', function (e) {
         e.preventDefault();
         var data = $(this).serialize();
-
+        $.ajax({
+            type: "GET",
+            url: "https://api.perlayjorge.com/invitaciones" // API URL
+        }).done(function(yourData) {
+            // Now open the modal! (Assuming you are using bootstrap.js)
+            $("#rsvp-modal").modal("show");
+            // If you used 'res.json' then you can use yourData here
+            $("#paragraphInModal").html(yourData);
+        });
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
         //if (MD5($('#invite_code').val()) !== 'b0e53b10c1f55ede516b240036b88f40'
           //  && MD5($('#invite_code').val()) !== '2ac7f43695eb0479d5846bb38eec59cc') {
             //$('#alert-wrapper').html(alert_markup('danger', '<strong>Lo siento!</strong> Codigo de invitacion incorrecto.'));
        // } else {
+
             $.post('https://script.google.com/macros/s/AKfycbzUqz44wOat0DiGjRV1gUnRf4HRqlRARWggjvHKWvqniP7eVDG-/exec', data)
                 .done(function (data) {
                     console.log(data);
                     $('#alert-wrapper').html('');
-                    $('#rsvp-modal').modal('show');
+                    $('#rsvp-modal1').modal('show');
                 })
                 .fail(function (data) {
                     console.log(data);
