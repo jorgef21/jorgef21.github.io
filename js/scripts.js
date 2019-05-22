@@ -213,7 +213,7 @@ $(document).ready(function () {
         var data = $(this).serialize();
         $.ajax({
             type: "GET",
-            url: "https://api.perlayjorge.com/invitaciones" // API URL
+            url: "https://api.perlayjorge.com/invitaciones?filter=jorge" // API URL
         }).done(function(yourData) {
             // Now open the modal! (Assuming you are using bootstrap.js)
             $("#rsvp-modal").modal("show");
