@@ -366,31 +366,31 @@ var MD5 = function (string) {
         return WordToHexValue;
     };
 
-    function Utf8Encode(string) {
-        string = string.replace(/\r\n/g, "\n");
-        var utftext = "";
+    // function Utf8Encode(string) {
+    //     string = string.replace(/\r\n/g, "\n");
+    //     var utftext = "";
 
-        for (var n = 0; n < string.length; n++) {
+    //     for (var n = 0; n < string.length; n++) {
 
-            var c = string.charCodeAt(n);
+    //         var c = string.charCodeAt(n);
 
-            if (c < 128) {
-                utftext += String.fromCharCode(c);
-            }
-            else if ((c > 127) && (c < 2048)) {
-                utftext += String.fromCharCode((c >> 6) | 192);
-                utftext += String.fromCharCode((c & 63) | 128);
-            }
-            else {
-                utftext += String.fromCharCode((c >> 12) | 224);
-                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-                utftext += String.fromCharCode((c & 63) | 128);
-            }
+    //         if (c < 128) {
+    //             utftext += String.fromCharCode(c);
+    //         }
+    //         else if ((c > 127) && (c < 2048)) {
+    //             utftext += String.fromCharCode((c >> 6) | 192);
+    //             utftext += String.fromCharCode((c & 63) | 128);
+    //         }
+    //         else {
+    //             utftext += String.fromCharCode((c >> 12) | 224);
+    //             utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+    //             utftext += String.fromCharCode((c & 63) | 128);
+    //         }
 
-        }
+    //     }
 
-        return utftext;
-    };
+    //     return utftext;
+    // };
 
     var x = Array();
     var k, AA, BB, CC, DD, a, b, c, d;
@@ -399,7 +399,7 @@ var MD5 = function (string) {
     var S31 = 4, S32 = 11, S33 = 16, S34 = 23;
     var S41 = 6, S42 = 10, S43 = 15, S44 = 21;
 
-    string = Utf8Encode(string);
+   // string = Utf8Encode(string);
 
     x = ConvertToWordArray(string);
 
