@@ -213,12 +213,14 @@ $(document).ready(function () {
         var data = $(this).serialize();
         $.ajax({
             type: "GET",
-            url: "https://api.perlayjorge.com/invitaciones?filter=jorge" // API URL
+            url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
+            dataType:'json'
         }).done(function(yourData) {
             // Now open the modal! (Assuming you are using bootstrap.js)
             $("#rsvp-modal").modal("show");
+            htmlData = '<ul><li>'+yourData.nombre+' '+yourData.primer_apellido+'</li></ul>';
             // If you used 'res.json' then you can use yourData here
-            $("#paragraphInModal").html(yourData);
+            $("#paragraphInModal").html(htmlData);
         });
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
