@@ -216,11 +216,9 @@ $(document).ready(function () {
             url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
             dataType:'json'
         }).done(function(yourData) {
-            // Now open the modal! (Assuming you are using bootstrap.js)
-            $("#rsvp-modal").modal("show");
             htmlData = '<ul><li>'+yourData.nombre+' '+yourData.primer_apellido+'</li></ul>';
-            // If you used 'res.json' then you can use yourData here
             $("#paragraphInModal").html(htmlData);
+            $("#rsvp-modal").modal("show");
         });
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
