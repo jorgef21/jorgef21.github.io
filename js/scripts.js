@@ -211,34 +211,30 @@ $(document).ready(function () {
     $('#rsvp-form').on('submit', function (e) {
         e.preventDefault();
         var data = $(this).serialize();
-
+        var title = document.getElementById('m-title');
+        var subtitle = document.getElementById('m-subtitle');
+         title.innerHTML="Este eres tú?";
+         subtitle.innerHTML="Selecciona tu nombre para continuar";
+        var $invitados = $('#paragraphInModal');
        $.ajax({
             type: "GET",
-            url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
-            dataType:'json'
-        }).done(function(yourData) {
-            htmlData = '<ul><li>'+yourData[0].nombre+' '+yourData[0].primer_apellido+'</li></ul>';
-            $("#paragraphInModal").html(htmlData);
+            url: "https://api.perlayjorge.com/invitaciones?"+data
+        }).done(function(myData) {
+             
+            $.each(myData,function(i,invitado) {
+
+                 $invitados.append('<li>'+invitado+'</li>');
+             });
+            
+
+            //htmlData = "<p>"+myData[0]+"</p>";
+            //$("#paragraphInModal").html(htmlData);
             $("#rsvp-modal").modal("show");
         });
+       
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
-        //if (MD5($('#invite_code').val()) !== 'b0e53b10c1f55ede516b240036b88f40'
-          //  && MD5($('#invite_code').val()) !== '2ac7f43695eb0479d5846bb38eec59cc') {
-            //$('#alert-wrapper').html(alert_markup('danger', '<strong>Lo siento!</strong> Codigo de invitacion incorrecto.'));
-       // } else {
-
-            $.post('https://script.google.com/macros/s/AKfycbzUqz44wOat0DiGjRV1gUnRf4HRqlRARWggjvHKWvqniP7eVDG-/exec', data)
-                .done(function (data) {
-                    console.log(data);
-                    $('#alert-wrapper').html('');
-                    $('#rsvp-modal1').modal('show');
-                })
-                .fail(function (data) {
-                    console.log(data);
-                    $('#alert-wrapper').html(alert_markup('danger', '<strong>Lo siento!</strong> Tenemos problemas con el servidor. '));
-                });
-        //}
+       
     });
 
 });
