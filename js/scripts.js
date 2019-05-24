@@ -211,6 +211,24 @@ $(document).ready(function () {
     $('#rsvp-form').on('submit', function (e) {
         e.preventDefault();
         var data = $(this).serialize();
+        //test
+    function getInvitado(){
+      fetch('https://api.perlayjorge.com/invitaciones?filter=jorge')
+      .then((res) => res.json())
+      .then((data) => {
+        let output = '<h2 class="mb-4">Invitados</h2>';
+        data.forEach(function(invitado){
+          output += `
+            <div class="card card-body mb-3">
+              <h4>${invitado.nombre}</h4>
+              <p>${invitado.primer_apellido}</p>
+            </div>
+          `;
+        });
+        document.getElementById('paragraphInModal').innerHTML = output;
+      })
+    }
+        //test
         $.ajax({
             type: "GET",
             url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
