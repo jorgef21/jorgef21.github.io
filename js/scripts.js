@@ -226,18 +226,19 @@ $(document).ready(function () {
           `;
         });
         document.getElementById('paragraphInModal').innerHTML = output;
+        $("#rsvp-modal").modal("show");
       })
     }
         //test
-        $.ajax({
-            type: "GET",
-            url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
-            dataType:'json'
-        }).done(function(yourData) {
-            htmlData = '<ul><li>'+yourData.nombre+' '+yourData.primer_apellido+'</li></ul>';
-            $("#paragraphInModal").html(htmlData);
-            $("#rsvp-modal").modal("show");
-        });
+       // $.ajax({
+        //    type: "GET",
+         //   url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
+        //    dataType:'json'
+        //}).done(function(yourData) {
+         //   htmlData = '<ul><li>'+yourData.nombre+' '+yourData.primer_apellido+'</li></ul>';
+           // $("#paragraphInModal").html(htmlData);
+        //    $("#rsvp-modal").modal("show");
+        //});
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
         //if (MD5($('#invite_code').val()) !== 'b0e53b10c1f55ede516b240036b88f40'
