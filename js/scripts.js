@@ -211,34 +211,16 @@ $(document).ready(function () {
     $('#rsvp-form').on('submit', function (e) {
         e.preventDefault();
         var data = $(this).serialize();
-        //test
-    function getInvitado(){
-      fetch('https://api.perlayjorge.com/invitaciones?filter=jorge')
-      .then((res) => res.json())
-      .then((data) => {
-        let output = '<h2 class="mb-4">Invitados</h2>';
-        data.forEach(function(invitado){
-          output += `
-            <div class="card card-body mb-3">
-              <h4>${invitado.nombre}</h4>
-              <p>${invitado.primer_apellido}</p>
-            </div>
-          `;
+
+       $.ajax({
+            type: "GET",
+            url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
+            dataType:'json'
+        }).done(function(yourData) {
+            htmlData = '<ul><li>'+yourData[0].nombre+' '+yourData[0].primer_apellido+'</li></ul>';
+            $("#paragraphInModal").html(htmlData);
+            $("#rsvp-modal").modal("show");
         });
-        document.getElementById('paragraphInModal').innerHTML = output;
-        $("#rsvp-modal").modal("show");
-      })
-    }
-        //test
-       // $.ajax({
-        //    type: "GET",
-         //   url: "https://api.perlayjorge.com/invitaciones?filter=jorge",
-        //    dataType:'json'
-        //}).done(function(yourData) {
-         //   htmlData = '<ul><li>'+yourData.nombre+' '+yourData.primer_apellido+'</li></ul>';
-           // $("#paragraphInModal").html(htmlData);
-        //    $("#rsvp-modal").modal("show");
-        //});
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
 
         //if (MD5($('#invite_code').val()) !== 'b0e53b10c1f55ede516b240036b88f40'
