@@ -231,7 +231,7 @@ $(document).ready(function () {
             $("#rsvp-modal").modal("show");
         });
        
-        $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Estamos guardando los datos..'));
+        $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Buscando información...'));
 
        
     });
