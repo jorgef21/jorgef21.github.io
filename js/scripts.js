@@ -223,7 +223,7 @@ $(document).ready(function () {
              
             $.each(myData.data,function(i,invitado) {
 
-                 $invitados.append('<li>'+invitado.nombre+'</li>');
+                 $invitados.append('<li>'+invitado.primer_apellido+'</li>');
              });
             
 
