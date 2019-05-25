@@ -221,9 +221,8 @@ $(document).ready(function () {
             url: "https://api.perlayjorge.com/invitaciones?"+data
         }).done(function(myData) {
              
-            $.each(myData.data,function(i,invitado) {
-
-                 $invitados.append('<li>'+invitado.primer_apellido+'</li>');
+            $.each(myData.object,function(i,invitado) {
+              $invitados.append('<ul><li><a href="#">'+invitado.nombre+' '+invitado.primer_apellido+'</a></li></ul>');
              });
             
 
