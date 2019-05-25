@@ -222,7 +222,7 @@ $(document).ready(function () {
         }).done(function(myData) {
              
             $.each(myData.object,function(i,invitado) {
-              $invitados.append('<ul><li><a href="#">'+invitado.nombre+' '+invitado.primer_apellido+'</a></li></ul>');
+              $invitados.append('<ul><li><h4><a href="#">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li></ul>');
              });
             
 
