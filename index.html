@@ -399,7 +399,32 @@
                     <div class="section-padding">
                         <h2 id="m-title">Gracias!</h2>
                         <p id='m-subtitle'>Nos encantaria verte en este dia tan especial para nosotros</p>
-                        <p id=paragraphInModal></p>
+                        <ul id=paragraphInModal></ul>
+                        
+                        <div id="add-to-cal"></div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div id="rsvp-modal-confirmacion" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span>
+                    </button>
+                    <div class="section-padding">
+                        <h2 id="confirma-titulo"></h2>
+                        <p>Como desea validar su identidad?</p>
+                        <form action="#">
+                            <div class="form-group">
+                                <label class="radio-inline"><input type="radio" name="code-radio" checked>Email</label>
+                                <label class="radio-inline"><input type="radio" name="code-radio">Telefono</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="usr">
+                            </div>
+                        </form>
                         <div id="add-to-cal"></div>
                     </div>
                 </div>
@@ -457,9 +482,59 @@
 <script src="js/jquery.mb.YTPlayer.min.js"></script>
 <script src="js/jquery.waypoints.min.js"></script>
 <script src="js/vendor/ouical.js"></script>
-<script src="js/scripts.js"></script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXNqm3ZL7KrN9RRUp80ioT1yuHmqZC1lc&callback=initMap"></script>
+<script>
+    $(document).ready(function(){
+         //Funcion para llamar al modal donde se validara el correo o el telefono
+        var resultados = null;
+        function validarIdentidad(o){
+            if(o !== null){
+                var full_name = o.nombre + " " + o.primer_apellido;
+                var telefono = o.telefono;
+                var email = o.email.home;
+                var confirma_titulo = full_name + " como desea validar su identidad?"
+                $("#confirma_titulo").text(confirma_titulo);
+                $("#rsvp-modal-confirmacion").modal("show");
+            }
+        }
 
+        /********************** RSVP **********************/
+        $('#rsvp-form').on('submit', function (e) {
+            e.preventDefault();
+            var data = $(this).serialize();
+            var title = document.getElementById('m-title');
+            var subtitle = document.getElementById('m-subtitle');
+            title.innerHTML="Este eres tú?";
+            subtitle.innerHTML="Selecciona tu nombre para continuar";
+            var $invitados = $('#paragraphInModal');
+        $.ajax({
+                type: "GET",
+                url: "https://api.perlayjorge.com/invitaciones?"+data
+            }).done(function(myData) {
+                if(myData.object !== null){
+                    resultados = myData.object;
+                    $invitados.html("");
+                    //$invitados.append('<ul id="paragraphInModal">')
+                    $.each(myData.object,function(i,invitado) {
+                    $invitados.append('<li data-index="'+i+'"><h3><a onclick="validarIdentidad('+i+')">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li>');
+                    });
+                    // $invitados.append("</ul>");
+                    
+                }else{
+                    resultados = null;
+                    console.log("No hay resultados");
+                }
+                //htmlData = "<p>"+myData[0]+"</p>";
+                //$("#paragraphInModal").html(htmlData);
+                $("#rsvp-modal").modal("show");
+            });
+        
+            $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Buscando información...'));
+        });
+
+    });
+</script>
+<script src="js/scripts.js"></script>
 </body>
 </html>
