@@ -1,3 +1,17 @@
+//Funcion para llamar al modal donde se validara el correo o el telefono
+var resultados = null;
+function validarIdentidad(index){
+    
+    if(index !== null){
+        var o = resultados[index];
+        var full_name = o.nombre + " " + o.primer_apellido;
+        var telefono = o.telefono;
+        var email = o.email.home;
+        var confirma_titulo = full_name + " como desea validar su identidad?"
+        $("#confirma-titulo").text(confirma_titulo);
+        $("#rsvp-modal-confirmacion").modal("show");
+    }
+}
 $(document).ready(function () {
 
     /***************** Waypoints ******************/
@@ -206,7 +220,6 @@ $(document).ready(function () {
 
    // $('#add-to-cal').html(myCalendar);
 
-
     /********************** RSVP **********************/
     $('#rsvp-form').on('submit', function (e) {
         e.preventDefault();
@@ -220,12 +233,19 @@ $(document).ready(function () {
             type: "GET",
             url: "https://api.perlayjorge.com/invitaciones?"+data
         }).done(function(myData) {
-             
-            $.each(myData.object,function(i,invitado) {
-              $invitados.append('<ul><li><h4><a href="#">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li></ul>');
-             });
-            
-
+            if(myData.object !== null){
+                resultados = myData.object;
+                $invitados.html("");
+                //$invitados.append('<ul id="paragraphInModal">')
+                $.each(myData.object,function(i,invitado) {
+                  $invitados.append('<li data-index="'+i+'"><h3><a href="javascript:validarIdentidad('+i+')">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li>');
+                });
+                // $invitados.append("</ul>");
+                 
+            }else{
+                resultados = null;
+                console.log("No hay resultados");
+            }
             //htmlData = "<p>"+myData[0]+"</p>";
             //$("#paragraphInModal").html(htmlData);
             $("#rsvp-modal").modal("show");
