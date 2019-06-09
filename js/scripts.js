@@ -1,18 +1,99 @@
 //Funcion para llamar al modal donde se validara el correo o el telefono
 var resultados = null;
+var invitado = null;
+var api_endpoint = "https://api.perlayjorge.com/";
 function validarIdentidad(index){
-    
-    if(index !== null){
-        var o = resultados[index];
-        var full_name = o.nombre + " " + o.primer_apellido;
-        var telefono = o.telefono;
-        var email = o.email.home;
-        var confirma_titulo = full_name + " como desea validar su identidad?"
-        $("#confirma-titulo").text(confirma_titulo);
+    if(index !== null && resultados !== null){
+        invitado = resultados[index];
+        var full_name = invitado.nombre + " " + invitado.primer_apellido;
+        console.log("Nombre: " + full_name)
+        $("#confirma-name").text(full_name);
         $("#rsvp-modal-confirmacion").modal("show");
     }
 }
 $(document).ready(function () {
+    var txtfilter =  $("#txtfilter");
+    //Valida si la persona selecciono telefono o correo para validar su invitacion
+    $("#radio_email").click(function(){
+        //Si selecciono email cambiar el textbox "txtfilter" type email
+        txtfilter.attr("type","email");
+        txtfilter.attr("placeholder","Correo electronico");
+    });
+    $("#radio_tel").click(function(){
+        //Si selecciono email cambiar el textbox "txtfilter" type email
+        txtfilter.attr("type","tel");
+        txtfilter.attr("placeholder","Telefono");
+        txtfilter.attr("pattern","[0-9]{10}")
+    });
+
+    //Modal para obtener el codigo de validacion
+    $('#frm_obtener_codigo').on('submit', function (e) {
+        e.preventDefault();
+        //Obtenemos lo que el 
+        var data = $(this).serializeArray().reduce(function(obj,item){
+            obj[item.name] = item.value;
+            return obj;
+        },{});
+        console.log("tipo: " + data.radio_code);
+        console.log("Valor: " + data.txtfilter);
+        if(data.radio_code !== null && data.txtfilter !== null){
+            var method = "";
+            var request = api_endpoint + method;
+            var frm_validation_stage_2 = $("#validation_stage_2");
+            if(data.radio_code === "email"){
+                //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
+                if(invitado.email.home === data.txtfilter){
+                    method = "invitaciones/code?email="+data.txtfilter;
+                    request = api_endpoint + method;
+                    console.log("request: " + request);
+                    //si el correo es el mismo, entonces hay que ejecutar la funcion que envia el codigo por correo
+                    $.ajax({
+                        url: request,
+                        type: "GET",
+                        beforeSend: function(){
+                            console.log("Before send: espere...");
+                            $("#confirma-msj").text("Espere....")
+                        }
+                    })
+                    .done(function(response){
+                        console.log("Done: ya se termino el request")
+                        $("#confirma-msj").text("Introduzca el codigo que le hemos enviado");
+                        $("#validation_stage_2").attr('class', 'visible');
+                        console.log("Resultado: " + response);
+                    })
+                    .fail(function(error){
+                        console.log("paso este error: " + error.error);
+                    })
+                    .always(function() {
+                        alert( "complete" );
+                    });
+                }
+            }else{
+
+            }
+        }
+      /* $.ajax({
+            type: "GET",
+            url: "https://api.perlayjorge.com/invitaciones?"+data
+        }).done(function(myData) {
+            if(myData.object !== null){
+                resultados = myData.object;
+                $invitados.html("");
+                //$invitados.append('<ul id="paragraphInModal">')
+                $.each(myData.object,function(i,invitado) {
+                  $invitados.append('<li data-index="'+i+'"><h3><a href="javascript:validarIdentidad('+i+')">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li>');
+                });
+                // $invitados.append("</ul>");
+                 
+            }else{
+                resultados = null;
+                console.log("No hay resultados");
+            }
+        });*/
+       
+
+       
+    });
 
     /***************** Waypoints ******************/
 
