@@ -18,6 +18,7 @@ $(document).ready(function () {
         //Si selecciono email cambiar el textbox "txtfilter" type email
         txtfilter.attr("type","email");
         txtfilter.attr("placeholder","Correo electronico");
+        txtfilter.attr("pattern","");
     });
     $("#radio_tel").click(function(){
         //Si selecciono email cambiar el textbox "txtfilter" type email
