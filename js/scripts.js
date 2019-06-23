@@ -87,6 +87,7 @@ $(document).ready(function () {
                     $("#txtfilter").text("");
                     $("#rsvp-generar-codigo").modal("togle");
                     $("#rsvp-validar-codigo").modal("show");
+                    console.log("Se abre el modulo de validacion");
                 })
                 .fail(function(error){
                     console.log("paso este error: " + error.error);
@@ -118,7 +119,7 @@ $(document).ready(function () {
             $("#email").value("");
             $("#telefono").value("");
             $("#txtfilter").text("");
-            $("#rsvp-validar-codigo").modal("togle");
+            //$("#rsvp-validar-codigo").modal("togle");
             alert("Resultado: " + JSON.stringify(response) );
         })
         .fail(function(error){
@@ -129,7 +130,7 @@ $(document).ready(function () {
             $("#telefono").value("");
         });
 
-    }
+    });
 
     /***************** Waypoints ******************/
 
