@@ -43,14 +43,14 @@ $(document).ready(function () {
         console.log("tipo: " + data.radio_code);
         console.log("Valor: " + data.txtfilter);
         if(data.radio_code !== null && data.txtfilter !== null){
-            var method = "invitaciones/code?";
-            var request = api_endpoint + method;
+            var method = "";
+            var request = "";
             var frm_validation_stage_2 = $("#validation_stage_2");
             var isValid = false;
             if(data.radio_code === "email"){
                 //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
                 if(invitado.email.home === data.txtfilter){
-                    method += "email="+data.txtfilter;
+                    method = "invitaciones/code?email="+data.txtfilter;
                     request = api_endpoint + method;
                     isValid = true;
                     console.log("Email request: " + request);
@@ -60,8 +60,8 @@ $(document).ready(function () {
                     isValid = false;
                 }
             }else{
-                if(invitado.telefono === data.txtfilter){
-                    method += "telefono="+data.txtfilter;
+                if(invitado.telefono === parseInt(data.txtfilter,10)){
+                    method = "invitaciones/code?telefono="+data.txtfilter;
                     request = api_endpoint + method;
                     console.log("Telefono request: " + request);
                     isValid = true;
@@ -82,19 +82,31 @@ $(document).ready(function () {
                 })
                 .done(function(response){
                     console.log("Done: ya se termino el request")
-                    $("#email").value(invitado.email.home);
-                    $("#telefono").value(invitado.telefono);
-                    $("#txtfilter").text("");
-                    $("#rsvp-generar-codigo").modal("togle");
-                    $("#rsvp-validar-codigo").modal("show");
-                    console.log("Se abre el modulo de validacion");
+                    if(response.success && response.message === "Exito"){
+                        if(invitado.email.home !== null){
+                            $("#email").val(invitado.email.home);
+                        }else{
+                            $("#email").val("email@example.com")
+                        }
+                        if(invitado.telefono !== null){
+                            $("#telefono").val(invitado.telefono);
+                        }else{
+                            $("#telefono").val(0);
+                        }
+                        $("#txtfilter").text("");
+                        $("#rsvp-generar-codigo").hide();
+                        $("#rsvp-validar-codigo").modal("show");
+                        console.log("Se abre el modulo de validacion");
+                    }else{
+                        $("#confirma-msj").text("Intentalo de nuevo");
+                    }
+                    
                 })
                 .fail(function(error){
                     console.log("paso este error: " + error.error);
                 })
                 .always(function() {
-                    $("#email").value("");
-                    $("#telefono").value("");
+                    console.log("Se termino la funcion que genera el codigo");
                 });
             }
         }
@@ -116,18 +128,25 @@ $(document).ready(function () {
         })
         .done(function(response){
             console.log("Done: ya se termino el request")
-            $("#email").value("");
-            $("#telefono").value("");
+            $("#email").val("");
+            $("#telefono").val("");
             $("#txtfilter").text("");
             //$("#rsvp-validar-codigo").modal("togle");
-            alert("Resultado: " + JSON.stringify(response) );
+            alert("Resultado: " + JSON.stringify(response));
+            if(response.success && response.message === "Exito"){
+                $("#validar-codigo-mensaje").text("valacion correcta, ahora falta mostrar la pantalla para modificar confirmar a los invitados");
+            }else{
+                $("#validar-codigo-mensaje").text("El codigo es incorrecto");
+            }
+            
         })
         .fail(function(error){
             console.log("paso este error: " + error.error);
+            $("#validar-codigo-mensaje").text("El codigo es incorrecto");
         })
         .always(function() {
-            $("#email").value("");
-            $("#telefono").value("");
+            $("#email").val("");
+            $("#telefono").val("");
         });
 
     });
