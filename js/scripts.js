@@ -22,7 +22,7 @@ $(document).ready(function () {
         //Si selecciono email cambiar el textbox "txtfilter" type email
         txtfilter.attr("type","email");
         txtfilter.attr("placeholder","Correo electronico");
-        txtfilter.removeAttr("pattern");;
+        txtfilter.removeAttr("pattern");
         
     });
     $("#radio_tel").click(function(){
@@ -43,45 +43,94 @@ $(document).ready(function () {
         console.log("tipo: " + data.radio_code);
         console.log("Valor: " + data.txtfilter);
         if(data.radio_code !== null && data.txtfilter !== null){
-            var method = "";
+            var method = "invitaciones/code?";
             var request = api_endpoint + method;
             var frm_validation_stage_2 = $("#validation_stage_2");
+            var isValid = false;
             if(data.radio_code === "email"){
                 //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
                 if(invitado.email.home === data.txtfilter){
-                    method = "invitaciones/code?email="+data.txtfilter;
+                    method += "email="+data.txtfilter;
                     request = api_endpoint + method;
-                    console.log("request: " + request);
-                    //si el correo es el mismo, entonces hay que ejecutar la funcion que envia el codigo por correo
-                    $.ajax({
-                        url: request,
-                        type: "GET",
-                        beforeSend: function(){
-                            console.log("Before send: espere...");
-                            $("#confirma-msj").text("Espere....")
-                        }
-                    })
-                    .done(function(response){
-                        console.log("Done: ya se termino el request")
-                        $("#confirma-msj").text("Introduzca el codigo que le hemos enviado");
-                        $("#validation_stage_2").attr('class', 'visible');
-                        console.log("Resultado: " + response);
-                    })
-                    .fail(function(error){
-                        console.log("paso este error: " + error.error);
-                    })
-                    .always(function() {
-                        alert( "Se ha enviado el codigo" );
-                    });
+                    isValid = true;
+                    console.log("Email request: " + request);
+                }
+                else{
+                    console.log("El correo no es el mismo");
+                    isValid = false;
                 }
             }else{
-
+                if(invitado.telefono === data.txtfilter){
+                    method += "telefono="+data.txtfilter;
+                    request = api_endpoint + method;
+                    console.log("Telefono request: " + request);
+                    isValid = true;
+                }else{
+                    console.log("el telefono no es valido");
+                    isValid = false;
+                }
+            }
+            if(isValid){
+                request = api_endpoint + method;
+                $.ajax({
+                    url: request,
+                    type: "GET",
+                    beforeSend: function(){
+                        console.log("Before send: espere...");
+                        $("#confirma-msj").text("Espere....")
+                    }
+                })
+                .done(function(response){
+                    console.log("Done: ya se termino el request")
+                    $("#email").value(invitado.email.home);
+                    $("#telefono").value(invitado.telefono);
+                    $("#txtfilter").text("");
+                    $("#rsvp-generar-codigo").modal("togle");
+                    $("#rsvp-validar-codigo").modal("show");
+                    console.log("Se abre el modulo de validacion");
+                })
+                .fail(function(error){
+                    console.log("paso este error: " + error.error);
+                })
+                .always(function() {
+                    $("#email").value("");
+                    $("#telefono").value("");
+                });
             }
         }
     });
 
     //Codigo para validar el codigo
-    
+    $('#frm_confirmar_codigo').on('submit', function (e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        var request = api_endpoint + "invitaciones/code";
+        $.ajax({
+            type: "POST",
+            url: request,
+            data: data,
+            beforeSend: function(){
+                console.log("Before send: espere...");
+                $("#validar-codigo-mensaje").text("Espere....")
+            }
+        })
+        .done(function(response){
+            console.log("Done: ya se termino el request")
+            $("#email").value("");
+            $("#telefono").value("");
+            $("#txtfilter").text("");
+            //$("#rsvp-validar-codigo").modal("togle");
+            alert("Resultado: " + JSON.stringify(response) );
+        })
+        .fail(function(error){
+            console.log("paso este error: " + error.error);
+        })
+        .always(function() {
+            $("#email").value("");
+            $("#telefono").value("");
+        });
+
+    });
 
     /***************** Waypoints ******************/
 
