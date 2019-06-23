@@ -407,7 +407,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div id="rsvp-modal-confirmacion" class="modal fade" tabindex="-1" role="dialog">
+    <div id="rsvp-generar-codigo" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -415,7 +415,7 @@
                     </button>
                     <div class="section-padding">
                         <h2 id="confirma-name"></h2>
-                        <div id="validation_stage_1" class="visible">
+                        <div id="validation_stage_1">
                             <p id="confirma-msj">Como desea validar su identidad?</p>
                             <form id="frm_obtener_codigo">
                                 <div class="form-group">
@@ -428,23 +428,38 @@
                                 <button class="btn btn-lg btn-primary" type="submit">Obtener codigo</button>
                             </form>
                         </div>
-                        <div id="validation_stage_2" class="invisible">
-                            <form id="frm_confirmar_codigo">
-                                <div class="form-group">
-                                    <label for="validation_code">Codigo de validacion</label>
-                                    <input type="text" class="form-control" id="validation_code" aria-describedby="codeHelp" placeholder="Codigo de validacion">
-                                    <small id="codeHelp" class="form-text text-muted">Revisa tu correo o tu Telefono</small>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Validar codigo</button>
-                            </form>
-                        </div>
-                        
-                        <div id="add-to-cal"></div>
                     </div>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div id="rsvp-validar-codigo" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span>
+                    </button>
+                    <div class="section-padding">
+                        <h2>Te hemos enviado el codigo de validacion</h2>
+                        <form id="frm_confirmar_codigo">
+                            <div class="form-group">
+                                <label for="validation_code">Codigo de validacion</label>
+                                <input type="text" class="form-control" id="codigo_confirmacion" name="codigo_confirmacion" aria-describedby="codeHelp" placeholder="Codigo de validacion">
+                                <input type="hidden" id="mail" name="mail"/>
+                                <input type="hidden" id="telefono" name="telefono"/>
+                                <small id="codeHelp" class="form-text text-muted">Revisa tu correo o tu Telefono</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Validar codigo</button>
+                        </form>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
 
     <div class="container">
         <div class="row">

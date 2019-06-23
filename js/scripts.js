@@ -5,10 +5,14 @@ var api_endpoint = "https://api.perlayjorge.com/";
 function validarIdentidad(index){
     if(index !== null && resultados !== null){
         invitado = resultados[index];
-        var full_name = invitado.nombre + " " + invitado.primer_apellido;
+        
+        var full_name = invitado.nombre;
+        if(invitado.primer_apellido !== null){
+            full_name = full_name + " " + invitado.primer_apellido;
+        }
         console.log("Nombre: " + full_name)
         $("#confirma-name").text(full_name);
-        $("#rsvp-modal-confirmacion").modal("show");
+        $("#rsvp-generar-codigo").modal("show");
     }
 }
 $(document).ready(function () {
@@ -67,35 +71,17 @@ $(document).ready(function () {
                         console.log("paso este error: " + error.error);
                     })
                     .always(function() {
-                        alert( "complete" );
+                        alert( "Se ha enviado el codigo" );
                     });
                 }
             }else{
 
             }
         }
-      /* $.ajax({
-            type: "GET",
-            url: "https://api.perlayjorge.com/invitaciones?"+data
-        }).done(function(myData) {
-            if(myData.object !== null){
-                resultados = myData.object;
-                $invitados.html("");
-                //$invitados.append('<ul id="paragraphInModal">')
-                $.each(myData.object,function(i,invitado) {
-                  $invitados.append('<li data-index="'+i+'"><h3><a href="javascript:validarIdentidad('+i+')">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li>');
-                });
-                // $invitados.append("</ul>");
-                 
-            }else{
-                resultados = null;
-                console.log("No hay resultados");
-            }
-        });*/
-       
-
-       
     });
+
+    //Codigo para validar el codigo
+    
 
     /***************** Waypoints ******************/
 
