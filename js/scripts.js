@@ -1,6 +1,7 @@
 //Funcion para llamar al modal donde se validara el correo o el telefono
 var resultados = null;
 var invitado = null;
+var ListOfInvitados = null;
 var api_endpoint = "https://api.perlayjorge.com/";
 function validarIdentidad(index){
     if(index !== null && resultados !== null){
@@ -15,43 +16,97 @@ function validarIdentidad(index){
         $("#rsvp-generar-codigo").modal("show");
     }
 }
-$(document).ready(function () {
-    var txtfilter =  $("#txtfilter");
-    //Valida si la persona selecciono telefono o correo para validar su invitacion
-    $("#radio_email").click(function(){
-        //Si selecciono email cambiar el textbox "txtfilter" type email
-        txtfilter.attr("type","email");
-        txtfilter.attr("placeholder","Correo electronico");
-        txtfilter.removeAttr("pattern");
-        
-    });
-    $("#radio_tel").click(function(){
-        //Si selecciono email cambiar el textbox "txtfilter" type email
-        txtfilter.attr("type","tel");
-        txtfilter.attr("placeholder","Telefono");
-        txtfilter.attr("pattern","[0-9]{10}")
-    });
 
-    //Modal para obtener el codigo de validacion
-    $('#frm_obtener_codigo').on('submit', function (e) {
-        e.preventDefault();
-        //Obtenemos lo que el 
-        var data = $(this).serializeArray().reduce(function(obj,item){
-            obj[item.name] = item.value;
-            return obj;
-        },{});
-        console.log("tipo: " + data.radio_code);
-        console.log("Valor: " + data.txtfilter);
-        if(data.radio_code !== null && data.txtfilter !== null){
-            var method = "";
-            var request = "";
-            var frm_validation_stage_2 = $("#validation_stage_2");
-            var isValid = false;
-            if(data.radio_code === "email"){
+//RSVP APP
+var app = angular.module('rsvp',[]);
+app.factory('SharedData',function(){
+    return {
+        api_endpoint : "https://api.perlayjorge.com/",
+        SearchResults : null,
+        invitado : {},
+        setSearchResults : function(val){
+            this.SearchResults = val;
+        },
+        getSearchResult : function(){
+            return this.SearchResults;
+        },
+        setInvitado : function(val){
+            this.invitado = val;
+        },
+        getInvitado : function(){
+            return this.invitado;
+        }
+    };
+});
+app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
+    //Model
+    $scope.nametosearch = "";
+    $scope.SearchResults = null;
+    $scope.SearchGuestByName = function(){
+        var method = "invitaciones?filter="+ $scope.nametosearch;
+        if($scope.nametosearch !== ""){
+            $http.get(SharedData.api_endpoint + method)
+                .then(function(response){
+                    if(response.data.success === true && response.data.object !== null){
+                        SharedData.setSearchResults(response.data.object);
+                        $scope.SearchResults = SharedData.SearchResults;
+                        //Abrir el modal para mostrar la lista de resultados de la busqueda
+                        var element = angular.element('#SearchResultModal');
+                        element.modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        element.modal('show');
+                    }
+                }).catch(function(response) {
+                    console.log('Error occurred:', response.status, response.data);
+                }).finally(function() {
+                    console.log("Task Finished.");
+                });
+        }
+    }
+});
+
+app.controller('CtrlSearchResults',function($scope,$http,SharedData){
+    //MODEL
+    $scope.SearchResults = null;
+    //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
+    $scope.$watch(function() { return SharedData.SearchResults; }, function(newVal, oldVal) {
+        $scope.SearchResults = newVal;
+    });
+    //METHODS
+    $scope.ShowGenerateCode = function(i){
+        //Guardamos el objeto seleccionado de la lista en la variable invitado
+        SharedData.setInvitado(i);
+        //Mostramos el nuevo modal
+        var element = angular.element('#GenerateCodeModal');
+        element.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        element.modal('show');
+    }
+});
+app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
+    //MODEL
+    $scope.invitado = null;
+    $scope.radio_selection = "email";
+    $scope.Codefilter = "";
+    //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
+    $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
+        $scope.invitado = newVal;
+    });
+    //METHODS
+    $scope.GenerateValidationCode = function(){
+        var isValid = false;
+        var request = "";
+        if($scope.Codefilter !== ""){
+            
+            if($scope.radio_selection === "email"){
                 //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
-                if(invitado.email.home === data.txtfilter){
-                    method = "invitaciones/code?email="+data.txtfilter;
-                    request = api_endpoint + method;
+                if($scope.invitado.email.home === $scope.Codefilter){
+                    method = "invitaciones/code?email="+$scope.Codefilter;
+                    request = SharedData.api_endpoint + method;
                     isValid = true;
                     console.log("Email request: " + request);
                 }
@@ -60,9 +115,9 @@ $(document).ready(function () {
                     isValid = false;
                 }
             }else{
-                if(invitado.telefono === parseInt(data.txtfilter,10)){
-                    method = "invitaciones/code?telefono="+data.txtfilter;
-                    request = api_endpoint + method;
+                if($scope.invitado.telefono === parseInt($scope.Codefilter,10)){
+                    method = "invitaciones/code?telefono="+$scope.Codefilter;
+                    request = SharedData.api_endpoint + method;
                     console.log("Telefono request: " + request);
                     isValid = true;
                 }else{
@@ -71,85 +126,86 @@ $(document).ready(function () {
                 }
             }
             if(isValid){
-                request = api_endpoint + method;
-                $.ajax({
-                    url: request,
-                    type: "GET",
-                    beforeSend: function(){
-                        console.log("Before send: espere...");
-                        $("#confirma-msj").text("Espere....")
+                $http.get(request)
+                .then(function(response){
+                    if(response.data.success === true && response.data.message === "Exito"){
+                        //Mostramos el nuevo modal
+                        var element = angular.element('#ValidateCodeModal');
+                        element.modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        element.modal('show');
+                        
                     }
-                })
-                .done(function(response){
-                    console.log("Done: ya se termino el request")
-                    if(response.success && response.message === "Exito"){
-                        if(invitado.email.home !== null){
-                            $("#email").val(invitado.email.home);
-                        }else{
-                            $("#email").val("email@example.com")
-                        }
-                        if(invitado.telefono !== null){
-                            $("#telefono").val(invitado.telefono);
-                        }else{
-                            $("#telefono").val(0);
-                        }
-                        $("#txtfilter").text("");
-                        $("#rsvp-generar-codigo").hide();
-                        $("#rsvp-validar-codigo").modal("show");
-                        console.log("Se abre el modulo de validacion");
-                    }else{
-                        $("#confirma-msj").text("Intentalo de nuevo");
-                    }
-                    
-                })
-                .fail(function(error){
-                    console.log("paso este error: " + error.error);
-                })
-                .always(function() {
-                    console.log("Se termino la funcion que genera el codigo");
+                }).catch(function(response) {
+                    console.log('Error occurred:', response.status, response.data);
+                }).finally(function() {
+                    console.log("Task Finished.");
                 });
             }
         }
+    }
+});
+app.controller('CtrlValidateCode',function($scope,$http,SharedData){
+    //MODEL
+    $scope.invitado = null;
+    $scope.validation_code = "";
+    $scope.Codefilter = "";
+    //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
+    $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
+        $scope.invitado = newVal;
     });
-
-    //Codigo para validar el codigo
-    $('#frm_confirmar_codigo').on('submit', function (e) {
-        e.preventDefault();
-        var data = $(this).serialize();
-        var request = api_endpoint + "invitaciones/code";
-        $.ajax({
-            type: "POST",
-            url: request,
-            data: data,
-            beforeSend: function(){
-                console.log("Before send: espere...");
-                $("#validar-codigo-mensaje").text("Espere....")
-            }
-        })
-        .done(function(response){
-            console.log("Done: ya se termino el request")
-            $("#email").val("");
-            $("#telefono").val("");
-            $("#txtfilter").text("");
-            //$("#rsvp-validar-codigo").modal("togle");
-            alert("Resultado: " + JSON.stringify(response));
-            if(response.success && response.message === "Exito"){
-                $("#validar-codigo-mensaje").text("valacion correcta, ahora falta mostrar la pantalla para modificar confirmar a los invitados");
-            }else{
-                $("#validar-codigo-mensaje").text("El codigo es incorrecto");
-            }
-            
-        })
-        .fail(function(error){
-            console.log("paso este error: " + error.error);
-            $("#validar-codigo-mensaje").text("El codigo es incorrecto");
-        })
-        .always(function() {
-            $("#email").val("");
-            $("#telefono").val("");
+    //METHODS
+    $scope.ValidateCode = function(){
+        //Guardamos el codigo de validacion nuevo
+        $scope.invitado.codigo_confirmacion = $scope.validation_code;
+        var data = {
+            email : $scope.invitado.email.home,
+            telefono : $scope.invitado.telefono,
+            codigo_confirmacion : $scope.invitado.codigo_confirmacion
+        }
+        SharedData.setInvitado($scope.invitado);
+        //Hacemos un POST request para validar el codigo
+        var request = SharedData.api_endpoint + "invitaciones/code";
+        $http.post(request,JSON.stringify(data))
+            .then(function(response){
+                if(response.data.success === true && response.data.object !== null){
+                    //Abrir el modal para mostrar la lista de resultados de la busqueda
+                    var element = angular.element('#InvitadosModal');
+                    element.modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    element.modal('show');
+                }
+            }).catch(function(response) {
+                console.log('Error occurred:', response.status, response.data);
+            }).finally(function() {
+                console.log("Task Finished.");
+            });
+        //Mostramos el nuevo modal
+        var element = angular.element('#GenerateCodeModal');
+        element.modal({
+            backdrop: 'static',
+            keyboard: false
         });
+        element.modal('show');
+    }
+});
 
+app.controller('CtrlInvitados',function($scope,$http,SharedData){
+    //MODEL
+    $scope.invitado = null;
+    //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
+    $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
+        $scope.invitado = newVal;
     });
+    //METHODS
+});
+
+
+$(document).ready(function () {
 
     /***************** Waypoints ******************/
 
@@ -358,7 +414,7 @@ $(document).ready(function () {
    // $('#add-to-cal').html(myCalendar);
 
     /********************** RSVP **********************/
-    $('#rsvp-form').on('submit', function (e) {
+    /* $('#rsvp-form').on('submit', function (e) {
         e.preventDefault();
         var data = $(this).serialize();
         var title = document.getElementById('m-title');
@@ -372,10 +428,11 @@ $(document).ready(function () {
         }).done(function(myData) {
             if(myData.object !== null){
                 resultados = myData.object;
+                ListOfInvitados = myData.object;
                 $invitados.html("");
                 //$invitados.append('<ul id="paragraphInModal">')
-                $.each(myData.object,function(i,invitado) {
-                  $invitados.append('<li data-index="'+i+'"><h3><a href="javascript:validarIdentidad('+i+')">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li>');
+                $.each(ListOfInvitados,function(i,invitado) {
+                  $invitados.append('<li data-index="'+i+'"><h3><a ng-click="SetInvitado('+i+')" href="javascript:validarIdentidad('+i+')">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li>');
                 });
                 // $invitados.append("</ul>");
                  
@@ -391,7 +448,7 @@ $(document).ready(function () {
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Buscando información...'));
 
        
-    });
+    }); */
 
 });
 

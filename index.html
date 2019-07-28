@@ -393,94 +393,21 @@
     <p>En Los Mochis puedes encotrar diferentes tipos de alojamient, aqui tienes unos ejemplos para tu comodida.</p>
   </div>
 </section>
-<section class="rsvp text-center" id="rsvp">
-
-    <div id="rsvp-modal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span>
-                    </button>
-                    <div class="section-padding">
-                        <h2 id="m-title">Gracias!</h2>
-                        <p id='m-subtitle'>Nos encantaria verte en este dia tan especial para nosotros</p>
-                        <ul id=paragraphInModal></ul>
-                        
-                        <div id="add-to-cal"></div>
-                    </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <div id="rsvp-generar-codigo" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span>
-                    </button>
-                    <div class="section-padding">
-                        <h2 id="confirma-name"></h2>
-                        <div id="validation_stage_1">
-                            <p id="confirma-msj">Como desea validar su identidad?</p>
-                            <form id="frm_obtener_codigo">
-                                <div class="form-group">
-                                    <label class="radio-inline"><input type="radio" id="radio_email" name="radio_code" value="email" checked>Email</label>
-                                    <label class="radio-inline"><input type="radio" id="radio_tel" name="radio_code" value="telefono">Telefono</label>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" id="txtfilter" name="txtfilter" autofocus="" required placeholder="Correo electronico" type="email">
-                                </div>
-                                <button class="btn-fill rsvp-btn" type="submit">Obtener codigo</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div id="rsvp-validar-codigo" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span>
-                    </button>
-                    <div class="section-padding">
-                        <h2>Te hemos enviado el codigo de validacion</h2>
-                        <p id="validar-codigo-mensaje"></p>
-                        <form id="frm_confirmar_codigo">
-                            <div class="form-group">
-                                <label for="validation_code">Codigo de validacion</label>
-                                <input type="text" class="form-control" id="codigo_confirmacion" name="codigo_confirmacion" aria-describedby="codeHelp" placeholder="Codigo de validacion">
-                                <input type="hidden" id="email" name="email"/>
-                                <input type="hidden" id="telefono" name="telefono"/>
-                                <small id="codeHelp" class="form-text text-muted">Revisa tu correo o tu Telefono</small>
-                            </div>
-                            <button type="submit" class="btn-fill rsvp-btn">Validar codigo</button>
-                        </form>
-                    </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
-
-
-    <div class="container">
+<!--ANGULAR RSVP-->
+<section class="rsvp text-center" id="rsvp" ng-app="rsvp">
+    <!-- PASO 1: Formulario de busqueda-->
+    <div class="container" ng-controller="CtrlGuestSearch" >
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <h3>Que esperas?</h3>
                 <p>Apreciaremos puedas confirmar tu asistencia antes del 20 Nov 2019</p>
-                <form id="rsvp-form" class="rsvp-form"
-                      action=""
-                      method="POST">
+                <form id="rsvp-form" class="rsvp-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="form-input-group">
-                                <i class="fa fa-user"></i><input name="filter" class=""
-                                                                 placeholder="Nombre/Apellido"
-                                                                 required>
+                                <i class="fa fa-user"></i><input name="filter" class="" ng-model="nametosearch"
+                                                                    placeholder="Nombre/Apellido"
+                                                                    required>
                             </div>
                         </div>
                     </div>
@@ -488,15 +415,118 @@
                     <div class="row">
                         <div class="col-md-12" id="alert-wrapper"></div>
                     </div>
-                    <button class="btn-fill rsvp-btn">
-                        Si,
-                        Soy Yo!
-                    </button>
+                    <button class="btn-fill rsvp-btn" ng-click="SearchGuestByName()">Buscar</button>
                 </form>
             </div>
         </div>
     </div>
-</section>
+    <!-- PASO 2: Lista de resultados de la busqueda anterior -->
+    <div ng-controller="CtrlSearchResults" class="modal fade" tabindex="-1" role="dialog" id="SearchResultModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+              <h3 class="modal-title">Lista de resultados</h3>
+            </div>
+            <div class="modal-body">
+                <div class="section-padding">
+                    <h4>Selecciona tu nombre para continuar</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="i in SearchResults"><a ng-click="ShowGenerateCode(i)" >{{i.nombre}}&nbsp;{{i.primer_apellido}}</a>  
+                        </li>
+                    </ul>
+                    <div id="add-to-cal"></div>
+                </div>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- PASO 3: Mostrar modal para generar codigo de confirmacion -->
+    <div ng-controller="CtrlGenerateCode" class="modal fade" tabindex="-1" role="dialog" id="GenerateCodeModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h3 class="modal-title">Obtener codigo de verificacion</h3>
+            </div>
+            <div class="modal-body">
+                <div class="section-padding">
+                    <h4>{{invitado.nombre}}&nbsp;{{invitado.primer_apellido}}</h4>
+                    <div>
+                        <p>Como desea validar su identidad?</p>
+                        <form>
+                            <div class="form-group">
+                                <label class="radio-inline"><input type="radio" name="selection" ng-model="radio_selection" ng-checked="radio_checked" ng-value='"email"'>Email</label>
+                                <label class="radio-inline"><input type="radio" name="selection" ng-model="radio_selection" ng-value='"telefono"' > Telefono</label>
+                            </div>
+                            <div class="form-group">
+                                <input id="Codefilter" class="form-control" ng-model="Codefilter" required>
+                            </div>
+                            <button class="btn-fill rsvp-btn" ng-click="GenerateValidationCode()" >Obtener codigo</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- PASO 4: Mostrar modal para validar el codigo generado -->
+    <div ng-controller="CtrlValidateCode" class="modal fade" tabindex="-1" role="dialog" id="ValidateCodeModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h3 class="modal-title">Validar codigo de verificacion</h3>
+            </div>
+            <div class="modal-body">
+                <div class="section-padding">
+                    <h2>Te hemos enviado el codigo de validacion</h2>
+                    <p id="validar-codigo-mensaje"></p>
+                    <form id="frm_confirmar_codigo">
+                        <div class="form-group">
+                            <label for="validation_code">Codigo de validacion</label>
+                            <input type="text" class="form-control" ng-model="validation_code" name="codigo_confirmacion" aria-describedby="codeHelp" placeholder="Codigo de validacion">
+                            <small id="codeHelp" class="form-text text-muted">Revisa tu correo o tu Telefono</small>
+                        </div>
+                        <button class="btn-fill rsvp-btn" ng-click="ValidateCode()" >Validar codigo</button>
+                    </form>
+                </div>
+            </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- PASO 5: Mostrar modal con la lista de invitados -->
+    <div ng-controller="CtrlInvitados" class="modal fade" tabindex="-1" role="dialog" id="InvitadosModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h3 class="modal-title">Confirmacion de asistencia</h3>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <h4>Lista de invitados</h4>
+                    </div>
+                    <div class="form-group">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="i in invitado.invitados" >
+                                {{i.nombre}}
+                                <span class="badge badge-primary badge-pill"><input type="checkbox" class="custom-control-input" ng-checked="i.asistencia" ?></span>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</section> <!-- ANGULAR END -->
 
 <footer>
     <div class="container">
@@ -517,8 +547,8 @@
 <script src="js/jquery.mb.YTPlayer.min.js"></script>
 <script src="js/jquery.waypoints.min.js"></script>
 <script src="js/vendor/ouical.js"></script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXNqm3ZL7KrN9RRUp80ioT1yuHmqZC1lc&callback=initMap"></script>
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXNqm3ZL7KrN9RRUp80ioT1yuHmqZC1lc&callback=initMap"></script> -->
+<script src="js/angular.min.js"></script>
 <script src="js/scripts.js"></script>
 </body>
 </html>
