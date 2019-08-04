@@ -509,6 +509,18 @@
                     <div class="form-group">
                         <h4>Lista de invitados</h4>
                     </div>
+                    <div class="alert alert-success alert-dismissible show" role="alert" ng-if="ShowSuccessAlert">
+                        <strong>Invitacion confirmada! </strong>Gracias por confirmarnos tu asistencia.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning alert-dismissible show" role="alert" ng-if="ShowFailAlert">
+                        <strong>No se han guardado los cambios </strong>Ha ocurrido un error al confirmar la invitacion
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <div class="form-group">
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="i in invitado.invitados" >
@@ -520,8 +532,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="ocultarAlertas()">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="confirmar()" >Save</button>
             </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
