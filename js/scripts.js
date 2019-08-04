@@ -212,6 +212,9 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
                    //Se ha confirmado la invitacion
                    $scope.ShowSuccessAlert = true;
                    $scope.ShowFailAlert = false;
+                }else{
+                    $scope.ShowSuccessAlert = false;
+                    $scope.ShowFailAlert = true;
                 }
             }).catch(function(response) {
                 console.log('Error occurred:', response.status, response.data);
