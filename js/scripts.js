@@ -197,11 +197,35 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
 app.controller('CtrlInvitados',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
+    $scope.ShowSuccessAlert = false;
+    $scope.ShowFailAlert = false;
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
         $scope.invitado = newVal;
     });
     //METHODS
+    $scope.confirmar = function(){
+        var request = SharedData.api_endpoint + "invitaciones/confirmar";
+        $http.post(request,JSON.stringify($scope.invitado))
+            .then(function(response){
+                if(response.data.success === true && response.data.object !== null){
+                   //Se ha confirmado la invitacion
+                   $scope.ShowSuccessAlert = true;
+                   $scope.ShowFailAlert = false;
+                }
+            }).catch(function(response) {
+                console.log('Error occurred:', response.status, response.data);
+                $scope.ShowFailAlert = true;
+                $scope.ShowSuccessAlert = false;
+            }).finally(function() {
+                console.log("Task Finished.");
+            });
+    }
+
+    $scope.ocultarAlertas = function(){
+        $scope.ShowSuccessAlert = false;
+        $scope.ShowFailAlert = false;
+    }
 });
 
 
