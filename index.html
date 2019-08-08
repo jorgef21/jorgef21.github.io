@@ -408,12 +408,14 @@
             <div class="modal-body">
                 <div class="section-padding">
                     <h4>Selecciona tu nombre para continuar</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="i in SearchResults"><a ng-click="ShowGenerateCode(i)" >{{i.nombre}}&nbsp;{{i.primer_apellido}}</a>  
+                    <ul>
+                        <li ng-repeat="i in SearchResults">
+                            <h3><a class="hov" ng-click="ShowGenerateCode(i)" >{{i.nombre}}&nbsp;{{i.primer_apellido}}</a>  </h3>
                         </li>
                     </ul>
                     <div id="add-to-cal"></div>
                 </div>
+               <p>*No estas en la lista? Intenta nuevamente</p>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
