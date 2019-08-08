@@ -432,13 +432,14 @@
                         <p>Como desea validar su identidad?</p>
                         <form>
                             <div class="form-group">
-                                <label class="radio-inline"><input type="radio" name="selection" ng-model="radio_selection" ng-checked="radio_checked" ng-value='"email"'>Email</label>
-                                <label class="radio-inline"><input type="radio" name="selection" ng-model="radio_selection" ng-value='"telefono"' > Telefono</label>
+                                <input id="radio-one" type="radio" class="form-radio" name="selection" ng-model="radio_selection" ng-checked="radio_checked" ng-value='"email"'><label class="radio-one">Email</label>
+                                <input id="radio-one" type="radio" class="form-radio" name="selection" ng-model="radio_selection" ng-value='"telefono"' > 
+                                <label class="radio-one">Telefono</label>
                             </div>
                             <div class="form-group">
                                 <input id="Codefilter" class="form-control" ng-model="Codefilter" required>
                             </div>
-                            <button class="btn-fill rsvp-btn" ng-click="GenerateValidationCode()" >Obtener codigo</button>
+                            <button class="btn btn-fill btn-small" ng-click="GenerateValidationCode()" >Obtener codigo</button>
                         </form>
                     </div>
                 </div>
@@ -464,7 +465,7 @@
                             <input type="text" class="form-control" ng-model="validation_code" name="codigo_confirmacion" aria-describedby="codeHelp" placeholder="Codigo de validacion">
                             <small id="codeHelp" class="form-text text-muted">Revisa tu correo o tu Telefono</small>
                         </div>
-                        <button class="btn-fill rsvp-btn" ng-click="ValidateCode()" >Validar codigo</button>
+                        <button class="btn btn-fill btn-small" ng-click="ValidateCode()" >Validar codigo</button>
                     </form>
                 </div>
             </div>
@@ -501,15 +502,16 @@
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="i in invitado.invitados" >
                                 {{i.nombre}}
-                                <span class="badge badge-primary badge-pill"><input type="checkbox" class="custom-control-input" ng-checked="i.asistencia" ng-model="i.asistencia"></span>
+                                <span class=""><input type="checkbox" class="form-checkbox" ng-checked="i.asistencia" ng-model="i.asistencia"></span>
                             </li>
                         </ul>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="ocultarAlertas()">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="confirmar()" >Save</button>
+                <button type="button" class="btn btn-fill btn-small" data-dismiss="modal" ng-click="ocultarAlertas()">Cerrar</button>
+                <button type="button" class="btn btn-fill btn-small" ng-click="confirmar()" >Guardar</button>
+                <p>*Selecciona los invitados a confirmar</p>
             </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

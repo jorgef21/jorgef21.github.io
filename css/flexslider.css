@@ -267,3 +267,91 @@ html[xmlns] .flexslider .slides {
     display: none;
   }
 }
+/* ====================================================================================================================
+ * CUSTOM CCS FOR CHECKBOX AND RADIO BUTTON
+ * ====================================================================================================================*/
+ .form-radio
+{
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     display: inline-block;
+     position: relative;
+     background-color: #f1f1f1;
+     color: #666;
+     top: 10px;
+     height: 30px;
+     width: 30px;
+     border: 0;
+     border-radius: 50px;
+     cursor: pointer;     
+     margin-right: 7px;
+     outline: none;
+}
+.form-radio:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+}
+.form-radio:hover
+{
+     background-color: #f7f7f7;
+}
+.form-radio:checked
+{
+     background-color: #f1f1f1;
+}
+label
+{
+     font: 15px/1.7 'Open Sans', sans-serif;
+     color: #333;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+     cursor: pointer;
+     padding-left: 5px;
+}
+
+/*THIS STYLE IS FOR CHECKBOX*/
+.form-checkbox
+{
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     display: block;
+     position: absolute;
+     background-color: #f1f1f1;
+     color: #666;
+     top: 1px;
+     height: 30px;
+     width: 30px;
+     border: 0;
+     border-radius: 3px;
+     cursor: pointer;     
+     margin-right: 1px;
+     margin-left: 10px;
+     outline: none;
+}
+.form-checkbox:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+}
+.form-checkbox:hover
+{
+     background-color: #f7f7f7;
+}
+.form-checkbox:checked
+{
+     background-color: #f1f1f1;
+} 
+
+
+ 
