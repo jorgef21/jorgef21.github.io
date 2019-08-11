@@ -90,13 +90,27 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
 app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
-    $scope.radio_selection = "email";
+    $scope.radio_mail = true;
+    $scope.radio_tel = false
     $scope.Codefilter = "";
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
         $scope.invitado = newVal;
     });
     //METHODS
+    //Metodos que validan el estatus de los checkboxs
+    $scope.MailChanged = function (obj) {
+        if(obj){ //If it is checked
+            $scope.radio_tel = false;
+        }
+    }
+    $scope.TelChanged = function (obj) {
+        if(obj){ //If it is checked
+            $scope.radio_mail = false;
+        }
+    }
+
+    //Metodo que general el codigo
     $scope.GenerateValidationCode = function(){
         var isValid = false;
         var request = "";
