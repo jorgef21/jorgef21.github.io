@@ -462,7 +462,12 @@
             <div class="modal-body">
                 <div class="section-padding">
                     <h2>Te hemos enviado el codigo de validacion</h2>
-                    <p id="validar-codigo-mensaje"></p>
+                    <div class="alert alert-warning alert-dismissible show" role="alert" ng-if="ShowFailAlert">
+                        <strong>Codigo incorrecto</strong>El codigo de confirmacion es incorrecto
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <form id="frm_confirmar_codigo">
                         <div class="form-group">
                             <label for="validation_code">Codigo de validacion</label>

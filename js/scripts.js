@@ -116,7 +116,7 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
         var request = "";
         if($scope.Codefilter !== ""){
             
-            if($scope.radio_selection === "email"){
+            if($scope.radio_mail){
                 //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
                 if($scope.invitado.email.home === $scope.Codefilter){
                     method = "invitaciones/code?email="+$scope.Codefilter;
@@ -166,6 +166,8 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
     $scope.invitado = null;
     $scope.validation_code = "";
     $scope.Codefilter = "";
+    $scope.ShowSuccessAlert = false;
+    $scope.ShowFailAlert = false;
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
         $scope.invitado = newVal;
@@ -211,7 +213,6 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
 app.controller('CtrlInvitados',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
-    $scope.ShowSuccessAlert = false;
     $scope.ShowFailAlert = false;
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
