@@ -1,0 +1,33 @@
+FRONT END
+
+1.- Agregar seccion de hoteles.
+2.- Arreglar diseno en general( espacios, corregir datos, modales), modal de email-telefono arreglar los textbox
+3.- Email template ? (Enviar correo cuando se confirma al invitado con los datos)
+4.- Corregir fotos (Galeria,nuestra historia).
+5.- Links adecuados en bara de navegacion,mapa,ubicacion,etc....
+
+Angular.
+
+1.- Agregar condicion en front-end para que valide el campo invitacion_dinamica, desarrollar la parte de mostrar
+    nombres o mostrar campos vacios dependiendo el parametro.
+2.- Corregir la navegacion en los modales (Cerrar el anterior cuando se pasa al siguiente, etc)
+3.- Crear Modal final mostrando mensaje de confirmacion (Gracias por confirmar etc...)
+4.- Mostrar errores en el cliente como alertas.
+
+BACK END
+
+1. Metodo de busqueda por nombre muestra todos los datos con concidiencia. ie. Cuandos e busca por familia
+  muestra los 50+ registros con el nombre familia. Restringir para mostrar 3-4 valores solamente.
+
+2. Agregar buscar por nombre + apellido al metodo de busqueda, actualmente busca ya sea por nombre o por apellido 
+   pero no encuentra si se buscan juntos ie. jorge flores,cristobal hernandez
+
+3. El metodo de busqueda requiere se escriba exacto la palabra con acentos, si en la bd esta con acento y se trata
+	de buscar del frontend sin acentos no encuentra datos. ie jesus en el front end, bd jesús, no encentra
+
+4. Crear metodo para enviar email al invitado cuando confirma invitacion
+
+5. Mejorar el metodo de enviar recordatorio por sms incluyendo email, junto o separado. (Dropdownlist)
+
+6. Agregar cc en email cuando un invitado confirma, se envia a host confirmacion con la lista.
+
