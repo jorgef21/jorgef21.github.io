@@ -456,3 +456,15 @@ This are styles for card
 .container {
   padding: 2px 16px;
 }
+
+
+/* 
+CSS PARA EL TEXBOXT DEL CODIGO DE VALIDACION
+*/
+.validation-code{
+height: 45px;
+font-size: 30px;
+text-align: center;
+width: 25%;
+
+}

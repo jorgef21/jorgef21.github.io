@@ -509,17 +509,18 @@
             <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h3 class="modal-title">Validar codigo de verificacion</h3>
+                <h3 class="modal-title">Validación</h3>
             </div>
             <div class="modal-body">
                 <div class="section-padding">
-                    <h2>Te hemos enviado el codigo de validacion</h2>
+                    <h2>Te hemos enviado el codigo de validación</h2>
                     <p id="validar-codigo-mensaje"></p>
                     <form id="frm_confirmar_codigo">
                         <div class="form-group">
-                            <label for="validation_code">Codigo de validacion</label>
-                            <input type="text" class="form-control" ng-model="validation_code" name="codigo_confirmacion" aria-describedby="codeHelp" placeholder="Codigo de validacion">
+                            <center>
+                            <input type="text" class="form-control validation-code justify-content-center" ng-model="validation_code" name="codigo_confirmacion" aria-describedby="codeHelp" placeholder="Codigo"">
                             <small id="codeHelp" class="form-text text-muted">Revisa tu correo o tu Telefono</small>
+                            </center>
                         </div>
                         <button class="btn btn-fill btn-small" ng-click="ValidateCode()" >Validar codigo</button>
                     </form>
