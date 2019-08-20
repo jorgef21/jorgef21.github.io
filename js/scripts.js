@@ -52,13 +52,16 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
                         $scope.SearchResults = SharedData.SearchResults;
                         //Abrir el modal para mostrar la lista de resultados de la busqueda
                         var element = angular.element('#SearchResultModal');
+                         
                         element.modal({
                             backdrop: 'static',
                             keyboard: false
                         });
                         element.modal('show');
                     }
+                        
                 }).catch(function(response) {
+                    
                     console.log('Error occurred:', response.status, response.data);
                 }).finally(function() {
                     console.log("Task Finished.");
