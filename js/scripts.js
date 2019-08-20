@@ -42,6 +42,8 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
     //Model
     $scope.nametosearch = "";
     $scope.SearchResults = null;
+    $scope.ShowSuccessAlert = false;
+    $scope.ShowFailAlert = false;
     $scope.SearchGuestByName = function(){
         var method = "invitaciones?filter="+ $scope.nametosearch;
         if($scope.nametosearch !== ""){
@@ -50,18 +52,16 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
                     if(response.data.success === true && response.data.object !== null){
                         SharedData.setSearchResults(response.data.object);
                         $scope.SearchResults = SharedData.SearchResults;
+
                         //Abrir el modal para mostrar la lista de resultados de la busqueda
                         var element = angular.element('#SearchResultModal');
-                         
                         element.modal({
                             backdrop: 'static',
                             keyboard: false
                         });
                         element.modal('show');
-                    }
-                        
+                    }   
                 }).catch(function(response) {
-                    
                     console.log('Error occurred:', response.status, response.data);
                 }).finally(function() {
                     console.log("Task Finished.");
