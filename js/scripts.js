@@ -179,12 +179,15 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
             .then(function(response){
                 if(response.data.success === true && response.data.object !== null){
                     //Abrir el modal para mostrar la lista de resultados de la busqueda
+                    var element_p= angular.element('#ValidateCodeModal');
                     var element = angular.element('#InvitadosModal');
                     element.modal({
                         backdrop: 'static',
                         keyboard: false
                     });
+                    element_p.modal('hide');
                     element.modal('show');
+
                 }
             }).catch(function(response) {
                 console.log('Error occurred:', response.status, response.data);
@@ -213,6 +216,10 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
                    //Se ha confirmado la invitacion
                    $scope.ShowSuccessAlert = true;
                    $scope.ShowFailAlert = false;
+                    var element_p= angular.element('#InvitadosModal');
+                    var element = angular.element('#SucessModal');
+                    element_p.modal('hide');
+                    element.modal('show');
                 }else{
                     $scope.ShowSuccessAlert = false;
                     $scope.ShowFailAlert = true;
