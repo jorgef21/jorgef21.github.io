@@ -82,12 +82,14 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
         //Guardamos el objeto seleccionado de la lista en la variable invitado
         SharedData.setInvitado(i);
         //Mostramos el nuevo modal
+        var element_p = angular.element('#SearchResultModal');
         var element = angular.element('#GenerateCodeModal');
         element.modal({
             backdrop: 'static',
             keyboard: false
         });
         element.modal('show');
+        element_p.modal('hide');
     }
 });
 app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
@@ -133,11 +135,13 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
                 .then(function(response){
                     if(response.data.success === true && response.data.message === "Exito"){
                         //Mostramos el nuevo modal
+                        var element_p = angular.element('#GenerateCodeModal');
                         var element = angular.element('#ValidateCodeModal');
                         element.modal({
                             backdrop: 'static',
                             keyboard: false
                         });
+                        element_p.modal('hide');
                         element.modal('show');
 
                     }
@@ -187,13 +191,7 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
             }).finally(function() {
                 console.log("Task Finished.");
             });
-        //Mostramos el nuevo modal
-        var element = angular.element('#GenerateCodeModal');
-        element.modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-        element.modal('show');
+       
     }
 });
 
