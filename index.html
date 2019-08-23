@@ -468,7 +468,7 @@
                     <h4>Selecciona tu nombre para continuar</h4>
                     <ul>
                         <li ng-repeat="i in SearchResults">
-                            <h3><a class="hov" ng-click="ShowGenerateCode(i)" >{{i.nombre}}&nbsp;{{i.primer_apellido}}</a>  </h3>
+                            <h3><a class="hov" onclick="$('#SearchResultModal').modal('hide')" ng-click="ShowGenerateCode(i)" >{{i.nombre}}&nbsp;{{i.primer_apellido}}</a>  </h3>
                         </li>
                     </ul>
                     <div id="add-to-cal"></div>
@@ -500,7 +500,7 @@
                             <div class="form-group">
                                 <input id="Codefilter" class="form-control" ng-model="Codefilter" required>
                             </div>
-                            <button class="btn btn-fill btn-small" ng-click="GenerateValidationCode()" >Obtener codigo</button>
+                            <button onclick="$('#GenerateCodeModal').modal('hide');" class="btn btn-fill btn-small" ng-click="GenerateValidationCode()" >Obtener codigo</button>
                         </form>
                     </div>
                 </div>
