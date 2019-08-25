@@ -95,19 +95,32 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
 app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
-    $scope.radio_selection = "email";
+    $scope.radio_mail = true;
+    $scope.radio_tel = false
     $scope.Codefilter = "";
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
         $scope.invitado = newVal;
     });
     //METHODS
+    //Metodos que validan el estatus de los checkboxs
+    $scope.MailChanged = function (obj) {
+        if(obj){ //If it is checked
+            $scope.radio_tel = false;
+        }
+    }
+    $scope.TelChanged = function (obj) {
+        if(obj){ //If it is checked
+            $scope.radio_mail = false;
+        }
+    }
+
+    //Metodo que general el codigo
     $scope.GenerateValidationCode = function(){
         var isValid = false;
         var request = "";
-        if($scope.Codefilter !== ""){
-
-            if($scope.radio_selection === "email"){
+        if($scope.Codefilter !== ""){   
+            if($scope.radio_mail){
                 //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
                 if($scope.invitado.email.home === $scope.Codefilter){
                     method = "invitaciones/code?email="+$scope.Codefilter;
@@ -159,6 +172,8 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
     $scope.invitado = null;
     $scope.validation_code = "";
     $scope.Codefilter = "";
+    $scope.ShowSuccessAlert = false;
+    $scope.ShowFailAlert = false;
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
         $scope.invitado = newVal;
@@ -201,7 +216,6 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
 app.controller('CtrlInvitados',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
-    $scope.ShowSuccessAlert = false;
     $scope.ShowFailAlert = false;
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {

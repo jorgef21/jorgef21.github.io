@@ -493,10 +493,11 @@
                     <div>
                         <p>Como desea validar su identidad?</p>
                         <form>
-                            <div class="form-group">
-                                <input id="radio-one" type="radio" class="form-radio" name="selection" ng-model="radio_selection" ng-checked="radio_checked" ng-value='"email"'><label class="radio-one">Email</label>
-                                <input id="radio-one" type="radio" class="form-radio" name="selection" ng-model="radio_selection" ng-value='"telefono"' >
-                                <label class="radio-one">Telefono</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-radio" ng-checked="radio_mail" ng-model="radio_mail" ng-change="MailChanged(radio_mail)">
+                                <label class="form-check-label">Email</label>
+                                <input type="checkbox" class="form-radio" ng-checked="radio_tel" ng-model="radio_tel" ng-change="TelChanged(radio_tel)">
+                                <label class="form-check-label">Telefono</label>
                             </div>
                             <div class="form-group">
                                 <input id="Codefilter" class="form-control" ng-model="Codefilter" required>
@@ -519,8 +520,13 @@
             </div>
             <div class="modal-body">
                 <div class="section-padding">
-                    <h2>Te hemos enviado el codigo de validación</h2>
-                    <p id="validar-codigo-mensaje"></p>
+                    <h2>Te hemos enviado el codigo de validacion</h2>
+                    <div class="alert alert-warning alert-dismissible show" role="alert" ng-if="ShowFailAlert">
+                        <strong>Codigo incorrecto</strong>El codigo de confirmacion es incorrecto
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <form id="frm_confirmar_codigo">
                         <div class="form-group">
                             <center>
