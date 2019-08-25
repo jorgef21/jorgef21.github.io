@@ -266,6 +266,9 @@ html[xmlns] .flexslider .slides {
   .flex-direction-nav .flex-next {
     display: none;
   }
+  .card{
+    margin: 15px;
+  }
 }
 /* ====================================================================================================================
  * CUSTOM CCS FOR CHECKBOX AND RADIO BUTTON
@@ -433,4 +436,36 @@ label
  
 .hov:hover{
   cursor: pointer;
+}
+
+/*
+This are styles for card
+*/
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+
+
+/* 
+CSS PARA EL TEXBOXT DEL CODIGO DE VALIDACION
+*/
+.validation-code{
+height: 45px;
+font-size: 30px;
+text-align: center;
+width: 40%;
+border-radius: 8px;
+padding: 5px;
 }

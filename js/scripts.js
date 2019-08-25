@@ -6,7 +6,7 @@ var api_endpoint = "https://api.perlayjorge.com/";
 function validarIdentidad(index){
     if(index !== null && resultados !== null){
         invitado = resultados[index];
-        
+
         var full_name = invitado.nombre;
         if(invitado.primer_apellido !== null){
             full_name = full_name + " " + invitado.primer_apellido;
@@ -42,6 +42,8 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
     //Model
     $scope.nametosearch = "";
     $scope.SearchResults = null;
+    $scope.ShowSuccessAlert = false;
+    $scope.ShowFailAlert = false;
     $scope.SearchGuestByName = function(){
         var method = "invitaciones?filter="+ $scope.nametosearch;
         if($scope.nametosearch !== ""){
@@ -50,6 +52,7 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
                     if(response.data.success === true && response.data.object !== null){
                         SharedData.setSearchResults(response.data.object);
                         $scope.SearchResults = SharedData.SearchResults;
+
                         //Abrir el modal para mostrar la lista de resultados de la busqueda
                         var element = angular.element('#SearchResultModal');
                         element.modal({
@@ -79,12 +82,14 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
         //Guardamos el objeto seleccionado de la lista en la variable invitado
         SharedData.setInvitado(i);
         //Mostramos el nuevo modal
+        var element_p = angular.element('#SearchResultModal');
         var element = angular.element('#GenerateCodeModal');
         element.modal({
             backdrop: 'static',
             keyboard: false
         });
         element.modal('show');
+        element_p.modal('hide');
     }
 });
 app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
@@ -114,8 +119,7 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
     $scope.GenerateValidationCode = function(){
         var isValid = false;
         var request = "";
-        if($scope.Codefilter !== ""){
-            
+        if($scope.Codefilter !== ""){   
             if($scope.radio_mail){
                 //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
                 if($scope.invitado.email.home === $scope.Codefilter){
@@ -144,13 +148,15 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
                 .then(function(response){
                     if(response.data.success === true && response.data.message === "Exito"){
                         //Mostramos el nuevo modal
+                        var element_p = angular.element('#GenerateCodeModal');
                         var element = angular.element('#ValidateCodeModal');
                         element.modal({
                             backdrop: 'static',
                             keyboard: false
                         });
+                        element_p.modal('hide');
                         element.modal('show');
-                        
+
                     }
                 }).catch(function(response) {
                     console.log('Error occurred:', response.status, response.data);
@@ -188,25 +194,22 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
             .then(function(response){
                 if(response.data.success === true && response.data.object !== null){
                     //Abrir el modal para mostrar la lista de resultados de la busqueda
+                    var element_p= angular.element('#ValidateCodeModal');
                     var element = angular.element('#InvitadosModal');
                     element.modal({
                         backdrop: 'static',
                         keyboard: false
                     });
+                    element_p.modal('hide');
                     element.modal('show');
+
                 }
             }).catch(function(response) {
                 console.log('Error occurred:', response.status, response.data);
             }).finally(function() {
                 console.log("Task Finished.");
             });
-        //Mostramos el nuevo modal
-        var element = angular.element('#GenerateCodeModal');
-        element.modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-        element.modal('show');
+       
     }
 });
 
@@ -227,6 +230,10 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
                    //Se ha confirmado la invitacion
                    $scope.ShowSuccessAlert = true;
                    $scope.ShowFailAlert = false;
+                    var element_p= angular.element('#InvitadosModal');
+                    var element = angular.element('#SucessModal');
+                    element_p.modal('hide');
+                    element.modal('show');
                 }else{
                     $scope.ShowSuccessAlert = false;
                     $scope.ShowFailAlert = true;
@@ -386,30 +393,7 @@ $(document).ready(function () {
     });
 
     /********************** Social Share buttons ***********************/
-    var share_bar = document.getElementsByClassName('share-bar');
-    var po = document.createElement('script');
-    po.type = 'text/javascript';
-    po.async = true;
-    po.src = 'https://apis.google.com/js/platform.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(po, s);
-
-    for (var i = 0; i < share_bar.length; i++) {
-        var html = '<iframe allowtransparency="true" frameborder="0" scrolling="no"' +
-            'src="https://platform.twitter.com/widgets/tweet_button.html?url=' + encodeURIComponent(window.location) + '&amp;text=' + encodeURIComponent(document.title) + '&amp;hashtags=perlayjorge&amp;count=horizontal"' +
-            'style="width:105px; height:21px;">' +
-            '</iframe>' +
-
-            '<iframe src="//www.facebook.com/plugins/like.php?href=' + encodeURIComponent(window.location) + '&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=21&amp;appId=101094500229731&amp;width=150" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" allowTransparency="true"></iframe>' +
-
-            '<div class="g-plusone" data-size="medium"></div>';
-
-        // '<iframe src="https://plusone.google.com/_/+1/fastbutton?bsv&amp;size=medium&amp;url=' + encodeURIComponent(window.location) + '" allowtransparency="true" frameborder="0" scrolling="no" title="+1" style="width:105px; height:21px;"></iframe>';
-
-        share_bar[i].innerHTML = html;
-        share_bar[i].style.display = 'inline-block';
-    }
-
+    
     /********************** Embed youtube video *********************/
     $('.player').YTPlayer();
 
@@ -477,7 +461,7 @@ $(document).ready(function () {
                   $invitados.append('<li data-index="'+i+'"><h3><a ng-click="SetInvitado('+i+')" href="javascript:validarIdentidad('+i+')">'+invitado.nombre+' '+invitado.primer_apellido+'</a></h3></li>');
                 });
                 // $invitados.append("</ul>");
-                 
+
             }else{
                 resultados = null;
                 console.log("No hay resultados");
@@ -486,10 +470,10 @@ $(document).ready(function () {
             //$("#paragraphInModal").html(htmlData);
             $("#rsvp-modal").modal("show");
         });
-       
+
         $('#alert-wrapper').html(alert_markup('info', '<strong>Un segundo!</strong> Buscando información...'));
 
-       
+
     }); */
 
 });
