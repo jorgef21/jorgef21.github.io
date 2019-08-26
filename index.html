@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/font-awesome1.min.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/intl-tel-input/build/css/intlTelInput.css">
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 <body id="top">
@@ -494,13 +495,16 @@
                         <p>Como desea validar su identidad?</p>
                         <form>
                             <div class="form-check">
-                                <input type="checkbox" class="form-radio" ng-checked="radio_mail" ng-model="radio_mail" ng-change="MailChanged(radio_mail)">
+                                <input type="checkbox" class="form-radio" ng-checked="radio_mail" ng-model="radio_mail" ng-change="MailChanged(radio_mail)" >
                                 <label class="form-check-label">Email</label>
                                 <input type="checkbox" class="form-radio" ng-checked="radio_tel" ng-model="radio_tel" ng-change="TelChanged(radio_tel)">
                                 <label class="form-check-label">Telefono</label>
                             </div>
                             <div class="form-group">
-                                <input id="Codefilter" class="form-control" ng-model="Codefilter" required>
+                                <center>
+                                <input id="Codefilter" class="form-control" ng-model="Codefilter" style="width: 70%;" required>
+                                 <small id="codeHelp" class="form-text text-muted">*Telefono 10 digitos.</small>
+                                </center>
                             </div>
                             <button class="btn btn-fill btn-small" ng-click="GenerateValidationCode()" >Obtener codigo</button>
                         </form>
@@ -629,6 +633,7 @@
 <script src="js/jquery.mb.YTPlayer.min.js"></script>
 <script src="js/jquery.waypoints.min.js"></script>
 <script src="js/vendor/ouical.js"></script>
+<script src="node_modules/intl-tel-input/build/js/intlTelInput.js"></script>
 <script src="js/angular.min.js"></script>
 <script src="js/scripts.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXNqm3ZL7KrN9RRUp80ioT1yuHmqZC1lc&callback=initMap"></script>

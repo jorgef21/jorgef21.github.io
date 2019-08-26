@@ -95,8 +95,8 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
 app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
-    $scope.radio_mail = true;
-    $scope.radio_tel = false
+    $scope.radio_mail = false;
+    $scope.radio_tel = true;
     $scope.Codefilter = "";
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
@@ -107,11 +107,13 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
     $scope.MailChanged = function (obj) {
         if(obj){ //If it is checked
             $scope.radio_tel = false;
+            $scope.Codefilter='';
         }
     }
     $scope.TelChanged = function (obj) {
         if(obj){ //If it is checked
             $scope.radio_mail = false;
+            $scope.Codefilter='';
         }
     }
 
