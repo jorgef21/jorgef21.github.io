@@ -573,13 +573,13 @@
                     <div class="alert alert-success alert-dismissible show" role="alert" ng-if="ShowSuccessAlert">
                         <strong>Ooops!</strong>el código es invalido. Favor de verificar
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="alert alert-success alert-dismissible show" role="alert" ng-if="ShowFailAlert">
                         <strong>Correcto!</strong>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <h2>Te hemos enviado el código de validación</h2>
@@ -631,13 +631,17 @@
                         </button>
                     </div>
                     <div class="form-group" ng-if="invitado.invitacion_dinamica = true && invitado.invitados.length <= invitado.invitados_max -1">
-                        <div class="form-group mb-2">
-                            <input type="text" readonly class="form-control-plaintext" id="newinvitado" value="Invitado">
+                        <div class="form-group">
+                            <label>Registrar invitado</label>
                         </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <input type="text" class="form-control" ng-model="nuevoInvitado.nombre"  placeholder="Nombre del invitado">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="nuevoInvitado.nombre"  placeholder="Nombre del invitado">
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-primary" ng-click="addInvitado()" >Agregar</button>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-primary" ng-click="addInvitado(nuevoInvitado)" >Agregar</button>
                         <hr>
                         <div class="form-group">
                             <ul class="list-group">
