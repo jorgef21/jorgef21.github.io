@@ -248,7 +248,7 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
 
     //INVITACION DINAMICA
     $scope.addInvitado = function(){
-        $scope.invitado.invitados.add($scope.nuevoInvitado);
+        $scope.invitado.invitados.push($scope.nuevoInvitado);
     }
 
     $scope.removeInvitado = function(obj){
