@@ -217,6 +217,9 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
                         backdrop: 'static',
                         keyboard: false
                     });
+                    if (response.data.message='No se encontraron coincidencias') {
+                        $scope.ShowFailAlert=true;    
+                    }
                     element_p.modal('hide');
                     element.modal('show');
 
