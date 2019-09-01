@@ -295,7 +295,9 @@
     .hero .hero-content {
         padding-top: 110%;
     }
-    
+    .confirmacion{
+        padding: 16em;
+    }   
     .hero .hero-content img {
         width: 65%;
     }
