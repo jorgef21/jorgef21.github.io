@@ -472,4 +472,6 @@ padding: 5px;
 
 .confirmacion{
  background: url(https://media.giphy.com/media/xUA7aT1vNqVWHPY1cA/giphy.gif);
+ background-size: cover;
+ padding: 10em;
 }
