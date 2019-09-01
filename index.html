@@ -618,7 +618,26 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                   <div class="form-group">
+                    <div class="form-group" ng-if="invitado.invitacion_dinamica = true && invitado.invitados.length <= invitado.invitados_max -1">
+                        <div class="form-group mb-2">
+                            <input type="text" readonly class="form-control-plaintext" id="newinvitado" value="Invitado">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input type="text" class="form-control" ng-model="nuevoInvitado.nombre"  placeholder="Nombre del invitado">
+                        </div>
+                        <button type="button" class="btn btn-primary" ng-click="addInvitado(nuevoInvitado)" >Agregar</button>
+                        <hr>
+                        <div class="form-group">
+                            <ul class="list-group">
+                              <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="i in invitado.invitados" >
+                                   <input type="text" class="form-control" ng-model="i.nombre">
+                                   <span class=""><input type="checkbox" class="form-checkbox" ng-checked="i.asistencia" ng-model="i.asistencia"></span>
+                                   <button type="button" class="btn btn-danger" ng-click="removeInvitado(i)">Eliminar</button>
+                              </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="invitado.invitacion_dinamica = false">
                          <ul class="list-group">
                            <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="i in invitado.invitados" >
                                 <h5>{{i.nombre}}</h5>

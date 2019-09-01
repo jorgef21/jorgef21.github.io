@@ -234,10 +234,27 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
     $scope.ShowFailAlert = false;
+    $scope.nuevoInvitado = {
+        asistencia : true,
+        nombre : ""
+    };
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
         $scope.invitado = newVal;
     });
+
+    //INVITACION DINAMICA
+    $scope.addInvitado = function(obj){
+        $obj.asistencia = true;
+        $scope.invitado.invitados.add(obj);
+    }
+
+    $scope.removeInvitado = function(obj){
+        var index = $scope.invitado.invitados.indexOf(obj);
+        if (index > -1) {
+            $scope.invitado.invitados(index, 1);
+        }
+    }
     //METHODS
     $scope.confirmar = function(){
         var request = SharedData.api_endpoint + "invitaciones/confirmar";
