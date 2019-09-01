@@ -12,9 +12,6 @@ Angular.
 
 BACK END
 
-3. El metodo de busqueda requiere se escriba exacto la palabra con acentos, si en la bd esta con acento y se trata
-	de buscar del frontend sin acentos no encuentra datos. ie jesus en el front end, bd jesús, no encentra
-
 4. Crear metodo para enviar email al invitado cuando confirma invitacion -- MEJORA
 
 5. Mejorar el metodo de enviar recordatorio por sms incluyendo email, junto o separado. (Dropdownlist) MEJORA
