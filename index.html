@@ -490,11 +490,17 @@
 
                 <div class="section-padding">
                     <div class="alert alert-success alert-dismissible show" role="alert" ng-if="ShowSuccessAlert">
-                        <strong>No se encontraron resultados</strong>Intenta nuevamente
+                        <strong>Hurraaa!</strong> Encontramos estas coincidencias.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
-                </div>
+                    </div>
+                    <div class="alert alert-success alert-dismissible show" role="alert" ng-if="ShowFailAlert">
+                        <strong>Ooops!</strong>No se encontraron coicidencias. Intenta nuevamente
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <h4>Selecciona tu nombre para continuar</h4>
                     <ul>
                         <li ng-repeat="i in SearchResults">
@@ -517,6 +523,18 @@
                 <h3 class="modal-title">Obtener código de verificación</h3>
             </div>
             <div class="modal-body">
+                <div class="alert alert-success alert-dismissible show" role="alert" ng-if="ShowSuccessAlert">
+                        <strong>Enviado!</strong> 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning alert-dismissible show" role="alert" ng-if="ShowFailAlert">
+                        <strong>Oooops! este no es el email/telefono que tenemos registrado</strong> intenta nuevamente
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 <div class="section-padding">
                     <h4>{{invitado.nombre}}&nbsp;{{invitado.primer_apellido}}</h4>
                     <div>

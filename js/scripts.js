@@ -59,11 +59,14 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
                             backdrop: 'static',
                             keyboard: false
                         });
+                      
                         element.modal('show');
+
                     }
                 }).catch(function(response) {
                     console.log('Error occurred:', response.status, response.data);
                 }).finally(function() {
+
                     console.log("Task Finished.");
                 });
         }
@@ -72,6 +75,8 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
 
 app.controller('CtrlSearchResults',function($scope,$http,SharedData){
     //MODEL
+    $scope.ShowFailAlert=false;
+    $scope.ShowSuccessAlert=false;
     $scope.SearchResults = null;
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.SearchResults; }, function(newVal, oldVal) {
@@ -84,6 +89,10 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
         //Mostramos el nuevo modal
         var element_p = angular.element('#SearchResultModal');
         var element = angular.element('#GenerateCodeModal');
+       
+        if($scope.SearchResults !== null ){
+             $scope.ShowSuccessAlert=true;     
+        }
         element.modal({
             backdrop: 'static',
             keyboard: false
@@ -121,6 +130,8 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
     $scope.GenerateValidationCode = function(){
         var isValid = false;
         var request = "";
+        $scope.ShowFailAlert=false;
+        $scope.ShowSuccessAlert=false;
         if($scope.Codefilter !== ""){   
             if($scope.radio_mail){
                 //Validamos si el correo introducido es el mismo que tiene el objeto "invitado"
@@ -132,6 +143,8 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
                 }
                 else{
                     console.log("El correo no es el mismo");
+                    $scope.ShowFailAlert=true;
+                    $scope.ShowSuccessAlert=false;
                     isValid = false;
                 }
             }else{
@@ -141,6 +154,8 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
                     console.log("Telefono request: " + request);
                     isValid = true;
                 }else{
+                    $scope.ShowSuccessAlert=false;
+                    $scope.ShowFailAlert=true;
                     console.log("el telefono no es valido");
                     isValid = false;
                 }
