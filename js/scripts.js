@@ -218,7 +218,11 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
                         keyboard: false
                     });
                     if (response.data.message='No se encontraron coincidencias') {
-                        $scope.ShowFailAlert=true;    
+                        $scope.ShowFailAlert=true;  
+                        $scope.ShowSuccessAlert=false;  
+                    }else{
+                        $scope.ShowFailAlert=false;  
+                        $scope.ShowSuccessAlert=true;
                     }
                     element_p.modal('hide');
                     element.modal('show');
