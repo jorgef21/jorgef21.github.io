@@ -217,16 +217,13 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
                         backdrop: 'static',
                         keyboard: false
                     });
-                    if (response.data.message='No se encontraron coincidencias') {
-                        $scope.ShowFailAlert=true;  
-                        $scope.ShowSuccessAlert=false;  
-                    }else{
-                        $scope.ShowFailAlert=false;  
-                        $scope.ShowSuccessAlert=true;
-                    }
+                    
                     element_p.modal('hide');
                     element.modal('show');
 
+                }else{
+                    $scope.ShowFailAlert=true;
+                    $scope.ShowSuccessAlert=false;             
                 }
             }).catch(function(response) {
                 console.log('Error occurred:', response.status, response.data);
