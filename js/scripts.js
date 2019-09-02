@@ -32,7 +32,7 @@ app.factory('SharedData',function(){
             return this.SearchResults;
         },
         setInvitado : function(val){
-            this.invitado = val;
+            this.invitado = null;
         },
         getInvitado : function(){
             return this.invitado;
