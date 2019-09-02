@@ -74,6 +74,7 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
                     }else{
                        console.log("No encontro datos");
                        SharedData.setValue(false);
+                       SharedData.setSearchResults(null);
                        var element = angular.element('#SearchResultModal');
                         element.modal({
                             backdrop: 'static',

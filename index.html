@@ -492,7 +492,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <h4>Selecciona tu nombre para continuar</h4>
+                    <h4 ng-if="SearchResults">Selecciona tu nombre para continuar</h4>
                     <ul>
                         <li ng-repeat="i in SearchResults">
                             <h3><a class="hov" ng-click="ShowGenerateCode(i)" >{{i.nombre}}&nbsp;{{i.primer_apellido}}</a>  </h3>
