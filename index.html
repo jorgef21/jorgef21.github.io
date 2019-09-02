@@ -624,7 +624,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="form-group" ng-if="invitado.invitacion_dinamica = true && invitado.invitados.length <= invitado.invitados_max -1">
+                    <div class="form-group" ng-if="invitado.invitacion_dinamica = true">
                         <div class="form-group">
                             <label>Registrar invitado</label>
                         </div>
@@ -633,16 +633,21 @@
                                 <input type="text" class="form-control" ng-model="nuevoInvitado.nombre"  placeholder="Nombre del invitado">
                             </div>
                             <div class="col-sm-4">
-                                <button type="button" class="btn btn-primary" ng-click="addInvitado()" >Agregar</button>
+                                <button type="button" class="btn btn-primary" ng-click="addInvitado()" ng-if="invitado.invitados.length <= invitado.invitados_max -1">Agregar</button>
+                                <label ng-if="invitado.invitados.length >= invitado.invitados_max -1">Se a alcanzado el numero maximo de invitados</label>
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
                             <ul class="list-group">
                               <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="i in invitado.invitados" >
-                                   <input type="text" class="form-control" ng-model="i.nombre">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" ng-model="i.nombre"  aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                                <button type="button" class="btn btn-danger input-group-text" ng-click="removeInvitado(i)">Eliminar</button>
+                                        </div>
+                                    </div>
                                    <span class=""><input type="checkbox" class="form-checkbox" ng-checked="i.asistencia" ng-model="i.asistencia"></span>
-                                   <button type="button" class="btn btn-danger" ng-click="removeInvitado(i)">Eliminar</button>
                               </li>
                             </ul>
                         </div>
