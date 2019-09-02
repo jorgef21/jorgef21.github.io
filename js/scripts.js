@@ -17,6 +17,7 @@ function validarIdentidad(index){
     }
 }
 
+
 //RSVP APP
 var app = angular.module('rsvp',[]);
 app.factory('SharedData',function(){
@@ -32,7 +33,7 @@ app.factory('SharedData',function(){
             return this.SearchResults;
         },
         setInvitado : function(val){
-            this.invitado = null;
+            this.invitado = val;
         },
         getInvitado : function(){
             return this.invitado;
@@ -52,6 +53,7 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
     $scope.ShowSuccessAlert = false;
     $scope.ShowFailAlert = false;
     $scope.SearchGuestByName = function(){
+    
         var method = "invitaciones?filter="+ $scope.nametosearch;
         if($scope.nametosearch !== ""){
             $http.get(SharedData.api_endpoint + method)
@@ -97,8 +99,7 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
     $scope.ShowFailAlert=false;
     $scope.ShowSuccessAlert=false;
     $scope.SearchResults = null;
-    
-
+   
 
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.SearchResults; }, function(newVal, oldVal) {
@@ -110,6 +111,7 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
             $scope.ShowFailAlert=true;
             $scope.ShowSuccessAlert=false;
         } 
+   
     });   
 
     //METHODS

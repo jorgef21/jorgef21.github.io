@@ -474,7 +474,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" onclick="document.getElementById('sarchBox').value = ''">×</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" onclick="document.getElementById('sarchBox').value = ''";>×</span></button>
               <h3 class="modal-title">Lista de resultados</h3>
             </div>
             <div class="modal-body">
@@ -500,7 +500,7 @@
                     </ul>
                     <div id="add-to-cal"></div>
                 </div>
-               <p>*No estás en la lista? Intenta nuevamente <a href="#rsvp" onclick="$('#SearchResultModal').modal('hide');document.getElementById('sarchBox').value = ''">aquí</a></p>
+               <p>*No estás en la lista? Intenta nuevamente <a href="#rsvp" onclick="$('#SearchResultModal').modal('hide');document.getElementById('sarchBox').value = ''";>aquí</a></p>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -615,7 +615,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="form-group" ng-if="invitado.invitacion_dinamica = true">
+                   <!--  <div class="form-group" ng-if="invitado.invitacion_dinamica = true">
                         <div class="form-group">
                             <label>Registrar invitado</label>
                         </div>
@@ -641,7 +641,7 @@
                               </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group" ng-if="invitado.invitacion_dinamica = false">
                          <ul class="list-group">
                            <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="i in invitado.invitados" >
