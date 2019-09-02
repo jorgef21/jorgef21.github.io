@@ -283,7 +283,7 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
     $scope.removeInvitado = function(obj){
         var index = $scope.invitado.invitados.indexOf(obj);
         if (index > -1) {
-            $scope.invitado.invitados(index, 1);
+            $scope.invitado.invitados.slice(index, 1);
         }
     }
     //METHODS
