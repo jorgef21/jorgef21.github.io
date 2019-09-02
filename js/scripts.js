@@ -277,14 +277,18 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
 
     //INVITACION DINAMICA
     $scope.addInvitado = function(){
-        $scope.invitado.invitados.push($scope.nuevoInvitado);
+        if($scope.invitado.invitados.length <= $scope.invitado.invitados_max -1){
+            $scope.invitado.invitados.push($scope.nuevoInvitado);
+        }else{
+            alert("Se ha alcanzado el numero maximo de invitados");
+        }
     }
 
-    $scope.removeInvitado = function(obj){
-        var index = $scope.invitado.invitados.indexOf(obj);
+    $scope.removeInvitado = function(index){
         if (index > -1) {
-            $scope.invitado.invitados.slice(index, 1);
+            $scope.invitado.invitados.splice(index, 1);
         }
+        console.log("Se elimino el objeto del arreglo");
     }
     //METHODS
     $scope.confirmar = function(){
