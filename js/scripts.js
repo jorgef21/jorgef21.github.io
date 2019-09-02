@@ -24,6 +24,7 @@ app.factory('SharedData',function(){
         api_endpoint : "https://api.perlayjorge.com/",
         SearchResults : null,
         invitado : {},
+        value : false,
         setSearchResults : function(val){
             this.SearchResults = val;
         },
@@ -35,7 +36,13 @@ app.factory('SharedData',function(){
         },
         getInvitado : function(){
             return this.invitado;
-        }
+        },
+        setValue : function(val){
+            this.value = val;
+        },
+        getValue : function(){
+            return 1;
+         }
     };
 });
 app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
@@ -49,20 +56,30 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
         if($scope.nametosearch !== ""){
             $http.get(SharedData.api_endpoint + method)
                 .then(function(response){
-                    if(response.data.success === true && response.data.object !== null){
+                    if(response.data.success === true && response.data.object.length>0){
                         SharedData.setSearchResults(response.data.object);
-                        $scope.SearchResults = SharedData.SearchResults;
-
+                        SharedData.setValue(true);
+                        $scope.SearchResults = SharedData.SearchResult;
                         //Abrir el modal para mostrar la lista de resultados de la busqueda
                         var element = angular.element('#SearchResultModal');
                         element.modal({
                             backdrop: 'static',
                             keyboard: false
                         });
-                      
                         element.modal('show');
+                        console.log("Encontro datos");
 
+                    }else{
+                       console.log("No encontro datos");
+                       SharedData.setValue(false);
+                       var element = angular.element('#SearchResultModal');
+                        element.modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                        element.modal('show');
                     }
+
                 }).catch(function(response) {
                     console.log('Error occurred:', response.status, response.data);
                 }).finally(function() {
@@ -73,26 +90,36 @@ app.controller('CtrlGuestSearch',function($scope,$http,SharedData){
     }
 });
 
+
+
 app.controller('CtrlSearchResults',function($scope,$http,SharedData){
     //MODEL
     $scope.ShowFailAlert=false;
     $scope.ShowSuccessAlert=false;
     $scope.SearchResults = null;
+    
+
+
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.SearchResults; }, function(newVal, oldVal) {
         $scope.SearchResults = newVal;
-    });
+        if (SharedData.value === true) {
+            $scope.ShowSuccessAlert=true;
+            $scope.ShowFailAlert=false;
+         }else{
+            $scope.ShowFailAlert=true;
+            $scope.ShowSuccessAlert=false;
+        } 
+    });   
+
     //METHODS
     $scope.ShowGenerateCode = function(i){
-        //Guardamos el objeto seleccionado de la lista en la variable invitado
+        //Guardamos el objeto seleccionado de la lista en la variable invitado      
+
         SharedData.setInvitado(i);
         //Mostramos el nuevo modal
         var element_p = angular.element('#SearchResultModal');
         var element = angular.element('#GenerateCodeModal');
-       
-        if($scope.SearchResults !== null ){
-             $scope.ShowSuccessAlert=true;     
-        }
         element.modal({
             backdrop: 'static',
             keyboard: false
@@ -100,6 +127,7 @@ app.controller('CtrlSearchResults',function($scope,$http,SharedData){
         element.modal('show');
         element_p.modal('hide');
     }
+     
 });
 app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
     //MODEL
