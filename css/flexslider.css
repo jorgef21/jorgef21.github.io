@@ -332,7 +332,7 @@ label
      left: -18.9px;
      height: 35px;
      width: 35px;
-     border: 0;
+     border: 1px solid #373B44;
      border-radius: 20px;
      cursor: pointer;     
      margin-right: 1px;
