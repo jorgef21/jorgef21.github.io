@@ -326,7 +326,7 @@ label
      appearance: none;
      display: block;
      position: absolute;
-     background-color: #98FFFD;
+     background-color: #DEDEDE;
      color: #666;
      top: 7px;
      left: -18.9px;
@@ -354,7 +354,7 @@ label
 }
 .form-checkbox:checked
 {
-     background-color: #00F29E;
+     background-color: #64f0b4;
      border: 1px solid white;
 } 
 
