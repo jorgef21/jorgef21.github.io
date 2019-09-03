@@ -235,9 +235,7 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
             telefono : $scope.invitado.telefono,
             codigo_confirmacion : $scope.invitado.codigo_confirmacion
         }
-        if(!$scope.invitado.email){
-            email:'prueba@gmail.com'
-        }
+        
         SharedData.setInvitado($scope.invitado);
         //Hacemos un POST request para validar el codigo
         var request = SharedData.api_endpoint + "invitaciones/code";
