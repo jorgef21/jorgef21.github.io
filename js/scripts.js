@@ -235,7 +235,7 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
             telefono : $scope.invitado.telefono,
             codigo_confirmacion : $scope.invitado.codigo_confirmacion
         }
-        if(!$scope.invitado.email.home){
+        if(!$scope.invitado.email){
             email:'prueba@gmail.com'
         }
         SharedData.setInvitado($scope.invitado);
