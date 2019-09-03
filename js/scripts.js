@@ -231,13 +231,12 @@ app.controller('CtrlValidateCode',function($scope,$http,SharedData){
         //Guardamos el codigo de validacion nuevo
         $scope.invitado.codigo_confirmacion = $scope.validation_code;
         var data = {
-            email : function(){if ($scope.invitado.email.home) {
-                return $scope.invitado.email.home;
-            }else{
-                return 'prueba@gmail.com';
-            }},
+            email: $scope.invitado.email.home,
             telefono : $scope.invitado.telefono,
             codigo_confirmacion : $scope.invitado.codigo_confirmacion
+        }
+        if(!$scope.invitado.email.home){
+            email:'prueba@gmail.com'
         }
         SharedData.setInvitado($scope.invitado);
         //Hacemos un POST request para validar el codigo
