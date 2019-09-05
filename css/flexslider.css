@@ -478,6 +478,6 @@ padding: 5px;
 
 
 .scroll-invitados{
-   max-height: calc(100vh - 210px);
+   max-height: calc(100vh - 255px);
    overflow-y: auto;
 }
