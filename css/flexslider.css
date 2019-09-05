@@ -475,3 +475,9 @@ padding: 5px;
  background-size: cover;
  padding: 16em;
 }
+
+
+.scroll-invitados{
+   max-height: calc(100vh - 210px);
+   overflow-y: auto;
+}
