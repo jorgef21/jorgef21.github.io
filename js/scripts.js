@@ -11,7 +11,7 @@ function validarIdentidad(index){
         if(invitado.primer_apellido !== null){
             full_name = full_name + " " + invitado.primer_apellido;
         }
-        console.log("Nombre: " + full_name)
+     
         $("#confirma-name").text(full_name);
         $("#rsvp-generar-codigo").modal("show");
     }
@@ -180,7 +180,6 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
                     method = "invitaciones/code?email="+$scope.Codefilter;
                     request = SharedData.api_endpoint + method;
                     isValid = true;
-                    console.log("Email request: " + request);
                 }
                 else{
                     console.log("El correo no es el mismo");
@@ -191,13 +190,12 @@ app.controller('CtrlGenerateCode',function($scope,$http,SharedData){
             }else{
                 if($scope.invitado.telefono === parseInt($scope.Codefilter,10)){
                     method = "invitaciones/code?telefono="+$scope.Codefilter;
-                    request = SharedData.api_endpoint + method;
-                    console.log("Telefono request: " + request);
+                    request = SharedData.api_endpoint + method; 
                     isValid = true;
                 }else{
                     $scope.ShowSuccessAlert=false;
                     $scope.ShowFailAlert=true;
-                    console.log("el telefono no es valido");
+                    console.log("El telefono no es valido");
                     isValid = false;
                 }
             }
@@ -287,7 +285,6 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
         $scope.invitado = newVal;
         $scope.changeValue = function($scope) {
          value=$("#ninvitados option:selected").text();
-         console.log(value);
         };
     });
 
