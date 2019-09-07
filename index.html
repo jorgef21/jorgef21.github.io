@@ -644,7 +644,9 @@
                         <div class="form-group">
                             <h4>Cuantas personas asistiran?</h4>
                         </div>
-                         DINAMICA
+                         <select ng-model="invitee" ng-change="changeValue(invitee)" ng-value="{{ n }}" ng-options="n for n in [] | range:1:invitado.invitados_max" id="ninvitados">
+                           
+                         </select>
                    </div>
                 </form>
             </div>

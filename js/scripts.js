@@ -270,32 +270,24 @@ app.controller('CtrlInvitados',function($scope,$http,SharedData){
     //MODEL
     $scope.invitado = null;
     $scope.ShowFailAlert = false;
-    $scope.nuevoInvitado = {
-        asistencia : true,
-        nombre : ""
-    };
+    var value = 0;
+   
     //WATCHERS: esta madre sirve para actualizar el valor que tienen las variables guardades en el servicio 'SharedData'
     $scope.$watch(function() { return SharedData.invitado; }, function(newVal, oldVal) {
         $scope.invitado = newVal;
+        $scope.changeValue = function($scope) {
+         value=$("#ninvitados option:selected").text();
+         console.log(value);
+        };
     });
 
     //INVITACION DINAMICA
-    $scope.addInvitado = function(){
-        if($scope.invitado.invitados.length <= $scope.invitado.invitados_max -1){
-            $scope.invitado.invitados.push($scope.nuevoInvitado);
-        }else{
-            alert("Se ha alcanzado el numero maximo de invitados");
-        }
-    }
 
-    $scope.removeInvitado = function(index){
-        if (index > -1) {
-            $scope.invitado.invitados.splice(index, 1);
-        }
-        console.log("Se elimino el objeto del arreglo");
-    }
+
+  
     //METHODS
     $scope.confirmar = function(){
+        $scope.invitado.invitados_confirmados = value;
         var request = SharedData.api_endpoint + "invitaciones/confirmar";
         $http.post(request,JSON.stringify($scope.invitado))
             .then(function(response){
