@@ -1,7 +1,7 @@
 # Wedding Website
 A beautiful, feature rich, device friendly wedding website.
 Used this to manage all the guest list for my wedding and as a digital invite.
-_See [perlayjorge.com](http://perlayjorge.com/) for a demo.
+See [jorgef21.github.io](http://perlayjorge.com/) for a demo.
 
 # Highlights
 1. Slick and fully __responsive__ design.
